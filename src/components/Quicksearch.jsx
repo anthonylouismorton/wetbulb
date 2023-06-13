@@ -35,7 +35,7 @@ export default function QuickSearch() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     let refinedAddress = location.description.replace(' ', '+')
-    let latLonSearch = await axios.get(`https://geocode.maps.co/search?q=${refinedAddress}`)
+    let latLonSearch = await axios.get(`https://geocode.maps.co/search?q=${refinedAddress}`, {headers: {'Bypass-Tunnel-Reminder': "something"}})
     let trimmedLat = parseFloat(latLonSearch.data[0].lat).toFixed(2)
     let trimmedLon = parseFloat(latLonSearch.data[0].lon).toFixed(2)
 
