@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   TextField,
   Grid,
-  Box,
-  Typography
+  Typography,
 } from '@mui/material';
 
 export default function Quickresults(props) {
-  
+  console.log(props.information)
   return (
     <Grid
     item
@@ -20,7 +19,7 @@ export default function Quickresults(props) {
       rowGap: '10px'
     }}
     > 
-      <Typography>WGBT</Typography>
+      <Typography></Typography>
       <Grid
         sx={{
           display: 'flex',
@@ -30,20 +29,24 @@ export default function Quickresults(props) {
         }}
       >
           <TextField
-            value={`${props.information.wgbtInfo.directWBGT}`}
-            label={'Direct WGBT (\u00B0F)'}
+            value={`${props.information.wbgtInfo.directWBGT}`}
+            label={'Direct WBGT (\u00B0F)'}
           />
           <TextField
-            value={`${props.information.wgbtInfo.shadedWBGT}`}
-            label={'Shaded WGBT (\u00B0F)'}
+            value={`${props.information.wbgtInfo.shadedWBGT}`}
+            label={'Shaded WBGT (\u00B0F)'}
           />
           <TextField
-            value={`${props.information.wgbtInfo.heatIndex}`}
+            value={`${props.information.wbgtInfo.heatIndex}`}
             label={'Heat Index (\u00B0F)'}
           />
           <TextField
-            value={`${props.information.wgbtInfo.solarRadiance}`}
+            value={`${props.information.wbgtInfo.solarRadiance}`}
             label={'Estimated Solar Radiance (W/m)'}
+          />
+          <TextField
+            value={`${props.information.wbgtInfo.fits}`}
+            label={'Fits (\u00B0F)'}
           />
         </Grid>
         <Typography>Weather Information</Typography>
@@ -66,6 +69,10 @@ export default function Quickresults(props) {
           <TextField
             value={`${props.information.weatherInfo.temperature}`}
             label={'Dry Temp (\u00B0F)'}
+          />
+          <TextField
+            value={`${props.information.weatherInfo.wetbulb}`}
+            label={'Wetbulb (\u00B0F)'}
           />
           <TextField
             value={`${props.information.weatherInfo.windspeed}`}

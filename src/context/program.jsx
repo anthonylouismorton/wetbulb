@@ -11,7 +11,7 @@ function UserProvider({children}){
   const getUserProfile = async () => {
     if(isAuthenticated){
       let email = user.email
-      const userinfo = await axios.get(`${process.env.REACT_APP_DATABASE}/user/${email}`);
+      const userinfo = await axios.get(`${process.env.REACT_APP_DATABASE}/user/${email}`, {headers: {"ngrok-skip-browser-warning": "69420"}});
       setUserProfile(userinfo.data)
     }
     else{

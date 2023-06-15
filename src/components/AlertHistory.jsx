@@ -29,7 +29,7 @@ export default function AlertHistory(props) {
     let getWbgts = []
     if(props.user !== undefined){
       console.log('in the if')
-      const dbAlerts = await axios.get(`${process.env.REACT_APP_DATABASE}/userwbgts/${props.user.name}`);
+      const dbAlerts = await axios.get(`${process.env.REACT_APP_DATABASE}/userwbgts/${props.user.name}`, {headers: {"ngrok-skip-browser-warning": "69420"}});
       console.log(dbAlerts)
       getWbgts = dbAlerts.data
     if(getWbgts.length > 1){

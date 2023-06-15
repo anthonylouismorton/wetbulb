@@ -7,7 +7,6 @@ import {
   Button,
   FormControlLabel,
   Radio,
-  FormLabel,
   RadioGroup,
   IconButton,
   Tooltip,
@@ -103,10 +102,9 @@ export default function NewAlertForm(props) {
     };
     let createdAlert = await axios.post(`${process.env.REACT_APP_DATABASE}/alert/`, newAlert);
     let alertId = parseInt(createdAlert.data.alertId);
-    await Promise.all(alert.emails.map(email => axios.post(`${process.env.REACT_APP_DATABASE}/alertEmail/${alertId}`, {alertId: alertId, alertEmail: email})));
+    await Promise.all(alert.emails.map(email => axios.post(`${process.env.REACT_APP_DATABASE}/alertEmail/${alertId}`, {headers: {"ngrok-skip-browser-warning": "69420"}}, {alertId: alertId, alertEmail: email})));
     props.setnewalert(false);
   };
-  console.log(alert)
   return (
     <Box container
       sx={{

@@ -8,22 +8,28 @@ import {
 import axios from 'axios'
 import Quickresults from './Quickresults'
 import AddressAutoComplete from './reusableComponents/AddressAutoComplete';
+import CircularProgress from '@mui/material/CircularProgress';
+import FlagConditionsTable from './FlagConditionsTable.jsx';
 
 export default function QuickSearch() { 
   const [location, setlocation] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showResults, setShowResults] = useState(false);
 
   const defaultInformation = {
     weatherInfo: {
       barometer: "",
       humidity: "",
       temperature: "",
-      windspeed:""
+      windspeed: "",
+      wetbulb: ""
     },
-    wgbtInfo: {
+    wbgtInfo: {
       solarRadiance: '',
       directWBGT: '',
       heatIndex: '',
-      shadedWBGT: ''
+      shadedWBGT: '',
+      fits: ''
     },
     dateTimeInfo: {
       time: ''
@@ -34,31 +40,34 @@ export default function QuickSearch() {
   const server = process.env.REACT_APP_DATABASE
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsLoading(true);
     let refinedAddress = location.description.replace(' ', '+')
     let latLonSearch = await axios.get(`https://geocode.maps.co/search?q=${refinedAddress}`)
     let trimmedLat = parseFloat(latLonSearch.data[0].lat).toFixed(2)
     let trimmedLon = parseFloat(latLonSearch.data[0].lon).toFixed(2)
 
     try{
-      let wgbtData = await axios.get(`${server}/quickSearch?lat=${trimmedLat}&lon=${trimmedLon}`, {headers: {"ngrok-skip-browser-warning": "69420"}})
+      let wbgtData = await axios.get(`${server}/quickSearch?lat=${trimmedLat}&lon=${trimmedLon}`, {headers: {"ngrok-skip-browser-warning": "69420"}})
       setcoords({
         lat: trimmedLat,
         lon: trimmedLon
       })
-      setInformation(wgbtData.data)
+      console.log(wbgtData.data)
+      setInformation(wbgtData.data)
+      setShowResults(true);
     }
     catch(e){
       console.log(e)
     }
+    setIsLoading(false);
   }
   return (
-    <Grid 
+    <Grid
       container
+      justifyContent="center"
+      alignItems="center"
       sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: '100px',
+        marginTop: '20px',
       }}
     >
       <Grid item>
@@ -79,8 +88,18 @@ export default function QuickSearch() {
             <Button type="submit" variant='contained'>Submit</Button>
           </Grid>
         </form>
-          <Quickresults information={information}/>
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          direction="column"
+          sx={{ marginTop: '10px' }}
+        >
+          {isLoading && <CircularProgress sx={{ marginTop: '10px' }} />}
         </Grid>
+          {showResults && !isLoading && <Quickresults information={information} />}
+        </Grid>
+        <FlagConditionsTable/>
       </Grid>
   )
 }

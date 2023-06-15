@@ -26,7 +26,7 @@ export default function AlertList(props) {
   const { isAuthenticated, user } = useAuth0();
   const getAlerts = async () => {
     if(props.user){
-      const userAlerts = await axios.get(`${process.env.REACT_APP_DATABASE}/alerts/${props.user.email}`);
+      const userAlerts = await axios.get(`${process.env.REACT_APP_DATABASE}/alerts/${props.user.email}`, {headers: {"ngrok-skip-browser-warning": "69420"}});
       setAlerts(userAlerts.data)
     }
   }
@@ -58,6 +58,7 @@ export default function AlertList(props) {
                     </IconButton>
                   </Tooltip>
                 </TableCell>
+                <TableCell align="center"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
