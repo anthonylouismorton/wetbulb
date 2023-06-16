@@ -14,7 +14,8 @@ export default function Quickresults(props) {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      marginTop: '50px',
+      marginTop: '35px',
+      marginBottom: '35px',
       flexDirection: 'column',
       rowGap: '10px'
     }}

@@ -49,7 +49,7 @@ export default function NavBar(props){
     }
   }
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{ height: '60px' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
@@ -100,6 +100,11 @@ export default function NavBar(props){
                 display: { xs: 'block', md: 'none' },
               }}
             >
+              <MenuItem key={'Home'} onClick={()=> handleCloseNavMenu('Home')}>
+                <Link to = '/Home' style={{ textDecoration: 'none' }}>
+                  <Typography textAlign="center">Home</Typography>
+                </Link>
+              </MenuItem>
               <MenuItem key={'Quick Search'} onClick={()=> handleCloseNavMenu('Quick Search')}>
                 <Link to = '/QuickSearch' style={{ textDecoration: 'none' }}>
                   <Typography textAlign="center">Quick Search</Typography>
@@ -139,6 +144,14 @@ export default function NavBar(props){
             LOGO
           </Typography> */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Link to = '/Home' style={{ textDecoration: 'none' }}>
+            <Button
+              key={'Quick Search'}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              Home
+            </Button>
+          </Link>
           <Link to = '/QuickSearch' style={{ textDecoration: 'none' }}>
             <Button
               key={'Quick Search'}

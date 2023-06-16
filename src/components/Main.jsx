@@ -1,6 +1,7 @@
 import React from "react";
 import Quicksearch from "./Quicksearch";
 import Dashboard from "./Dashboard";
+import WbgtHome from "./WbgtHome";
 import { Routes, Route } from 'react-router-dom';
 
 
@@ -9,11 +10,11 @@ export default function Main(props) {
       <Routes>
         <Route
           path='/'
-          element={<Quicksearch/>}
+          element={<WbgtHome/>}
         />
         <Route
           path='/Home'
-          element={<Quicksearch/>}
+          element={<WbgtHome/>}
         />
         <Route
           path='/QuickSearch'

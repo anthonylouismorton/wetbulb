@@ -83,9 +83,12 @@ export default function QuickSearch() {
               rowGap: '10px'
             }}
             >
-            <Typography> Find WBGT For Your Location</Typography>
+            <Typography variant="h4" sx={{ margin: '50px 0', fontWeight: 'bold' }}>
+              WBGT Estimate Calculator
+            </Typography>
+
             <AddressAutoComplete setlocation={setlocation}/>
-            <Button type="submit" variant='contained'>Submit</Button>
+            <Button type="submit" variant='contained'>Calculate</Button>
           </Grid>
         </form>
         <Grid
@@ -95,7 +98,7 @@ export default function QuickSearch() {
           direction="column"
           sx={{ marginTop: '10px' }}
         >
-          {isLoading && <CircularProgress sx={{ marginTop: '10px' }} />}
+          {isLoading && <CircularProgress sx={{ marginTop: '100px', marginBottom: '100px' }} />}
         </Grid>
           {showResults && !isLoading && <Quickresults information={information} />}
         </Grid>
