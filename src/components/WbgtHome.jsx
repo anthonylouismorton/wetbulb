@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, Typography, Grid } from '@mui/material';
+import { Box, Typography, Grid, Button } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 
 const boxStyles = {
   backgroundColor: '#f5f5f5',
@@ -39,10 +40,18 @@ const backgroundImageStyle = {
 export default function WbgtHome() {
   return (
     <Box sx={backgroundImageStyle}>
-      <Box sx={{ margin: '20px' }}>
-        <Typography sx={{ textAlign: 'center', margin: '50px 0', wordBreak: 'break-word', fontSize: '45px' }}>
+      <Box sx={{ margin: '25px' }}>
+        <Typography sx={{ textAlign: 'center', margin: '40px 0', wordBreak: 'break-word', fontSize: '45px' }}>
           Welcome to the Wet Bulb Globe Temperature (WBGT) Calculator!
         </Typography>
+        <Box sx={{ textAlign: 'center', marginBottom: '40px' }}>
+          <Typography variant="h6" sx={{ marginBottom: '10px' }}>
+            Try it out!
+          </Typography>
+          <Button component={RouterLink} to="/quicksearch" variant="contained">
+            Get WBGT
+          </Button>
+        </Box>
 
         <Grid container spacing={6} justifyContent="center">
           <Grid item xs={12} md={4}>
