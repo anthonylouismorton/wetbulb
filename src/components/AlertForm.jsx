@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   TextField,
   Grid,
@@ -14,24 +14,22 @@ import {
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-import { ProgramContext } from '../context/program';
 import axios from 'axios'
 import AddressAutoComplete from './reusableComponents/AddressAutoComplete';
 import { useAuth0 } from '@auth0/auth0-react';
 
-export default function NewAlertForm(props) {
-  // const user = useContext(ProgramContext);
-  const { isAuthenticated, user } = useAuth0();
+export default function AlertForm(props) {
+  const { user } = useAuth0();
   const [radio, setRadio] = useState('all');
   const [location, setlocation] = useState('');
   const [frequency, setfrequency] = useState('hourly');
-  const defaultAlert = {
+  const [alert, setalert] = useState({
     address: '',
-    emails: [''],
-    flag: radio,
-    frequency: frequency
-  }
-  const [alert, setalert] = useState(defaultAlert);
+    emails: [],
+    flag: '',
+    frequency: '',
+    alertId: ''
+  });
 
   const handleChange = (e) => {
     const {name, value} = e.target
@@ -87,7 +85,6 @@ export default function NewAlertForm(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(location);
     let refinedAddress = location.description.replace(' ', '+');
     let latLonSearch = await axios.get(`https://geocode.maps.co/search?q=${refinedAddress}`);
     let trimmedLat = parseFloat(latLonSearch.data[0].lat).toFixed(2);
@@ -105,8 +102,27 @@ export default function NewAlertForm(props) {
     await Promise.all(alert.emails.map(email => axios.post(`${process.env.REACT_APP_DATABASE}/alertEmail/${alertId}`, {headers: {"ngrok-skip-browser-warning": "69420"}}, {alertId: alertId, alertEmail: email})));
     props.setnewalert(false);
   };
+  useEffect(() => {
+    if (props.editAlert.alert.alertId) {
+      setalert({
+        address: props.editAlert.alert.location,
+        emails: [],
+        flag: props.editAlert.alert.flagCondition,
+        frequency: props.editAlert.alert.frequency,
+        alertId: props.editAlert.alert.alertId
+      });
+    } else {
+      setalert({
+        address: '',
+        emails: [''],
+        flag: radio,
+        frequency: frequency
+      });
+    }
+  }, [props.editAlert]);
+  console.log(alert)
   return (
-    <Box container
+    <Box container="true"
       sx={{
         display: 'flex',
         justifyContent: 'center',
@@ -132,7 +148,7 @@ export default function NewAlertForm(props) {
           }}
         >
           <Typography> WBGT Location </Typography>
-          <AddressAutoComplete setlocation={setlocation}/>
+          <AddressAutoComplete location={location} setlocation={setlocation}/>
         </Grid>
           <Grid item>
             <Typography>Choose Flag Condition for Alerts</Typography>
