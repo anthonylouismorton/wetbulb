@@ -85,21 +85,26 @@ export default function AlertForm(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    let refinedAddress = location.description.replace(' ', '+');
-    let latLonSearch = await axios.get(`https://geocode.maps.co/search?q=${refinedAddress}`);
-    let trimmedLat = parseFloat(latLonSearch.data[0].lat).toFixed(2);
-    let trimmedLon = parseFloat(latLonSearch.data[0].lon).toFixed(2);
-    let newAlert = {
-      lat: trimmedLat,
-      lon: trimmedLon,
-      location: location.description,
-      flagCondition: alert.flag,
-      frequency: alert.frequency,
-      alertEmail: user.email
-    };
-    let createdAlert = await axios.post(`${process.env.REACT_APP_DATABASE}/alert/`, newAlert);
-    let alertId = parseInt(createdAlert.data.alertId);
-    await Promise.all(alert.emails.map(email => axios.post(`${process.env.REACT_APP_DATABASE}/alertEmail/${alertId}`, {headers: {"ngrok-skip-browser-warning": "69420"}}, {alertId: alertId, alertEmail: email})));
+    if(props.editAlert.alert.alertId){
+      await axios.put(`${process.env.REACT_APP_DATABASE}/alert/${props.editAlert.alert.alertId}`, alert, {headers: {"ngrok-skip-browser-warning": "69420"}})
+    }
+    else{
+      let refinedAddress = location.description.replace(' ', '+');
+      let latLonSearch = await axios.get(`https://geocode.maps.co/search?q=${refinedAddress}`);
+      let trimmedLat = parseFloat(latLonSearch.data[0].lat).toFixed(2);
+      let trimmedLon = parseFloat(latLonSearch.data[0].lon).toFixed(2);
+      let newAlert = {
+        lat: trimmedLat,
+        lon: trimmedLon,
+        location: location.description,
+        flagCondition: alert.flag,
+        frequency: alert.frequency,
+        alertEmail: user.email
+      };
+      let createdAlert = await axios.post(`${process.env.REACT_APP_DATABASE}/alert/`, newAlert);
+      let alertId = parseInt(createdAlert.data.alertId);
+      await Promise.all(alert.emails.map(email => axios.post(`${process.env.REACT_APP_DATABASE}/alertEmail/${alertId}`, {headers: {"ngrok-skip-browser-warning": "69420"}}, {alertId: alertId, alertEmail: email})));
+    }
     props.setnewalert(false);
   };
   useEffect(() => {
@@ -147,8 +152,18 @@ export default function AlertForm(props) {
             rowGap: '5px'
           }}
         >
-          <Typography> WBGT Location </Typography>
-          <AddressAutoComplete location={location} setlocation={setlocation}/>
+          {!props.editAlert ? (
+          <Box>
+            <Typography>Create New Alert </Typography>
+            <AddressAutoComplete setlocation={setlocation} />
+          </Box>
+          ) : (
+          <Box>
+            <Typography>Edit  Alert</Typography>
+            <Typography>{props.editAlert.alert.location}</Typography>
+          </Box>
+          )}
+
         </Grid>
           <Grid item>
             <Typography>Choose Flag Condition for Alerts</Typography>
