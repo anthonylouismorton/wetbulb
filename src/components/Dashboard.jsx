@@ -2,11 +2,23 @@ import React, { useState } from 'react';
 import AlertForm from "./AlertForm";
 import AlertHistory from "./AlertHistory";
 import AlertList from './AlertList';
-import { Grid } from '@mui/material';
+import AlertFullInfo from './AlertFullInfo';
+import { Modal, Box, Grid } from '@mui/material';
 
 export default function Dashboard(props) {
   const [newalert, setAlertForm] = useState(false);
   const [editAlert, setEditAlert] = useState(null);
+  const [selectedAlert, setSelectedAlert] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleAlertClick = (alert) => {
+    setSelectedAlert(alert);
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   const handleEditAlert = (alert) => {
     setEditAlert(alert);
@@ -15,6 +27,16 @@ export default function Dashboard(props) {
 
   return (
     <>
+      <Modal
+        open={openModal}
+        onClose={handleCloseModal}
+        aria-labelledby="modal-title"
+        aria-describedby="modal-description"
+      >
+        <>
+          <AlertFullInfo alert={selectedAlert} />
+        </>
+      </Modal>
       {newalert && (
         <AlertForm
           setAlertForm={setAlertForm}
@@ -38,7 +60,7 @@ export default function Dashboard(props) {
             setAlertForm={setAlertForm}
             editAlert={handleEditAlert}
           />
-          <AlertHistory user={props.user} />
+          <AlertHistory user={props.user} handleAlertClick={handleAlertClick}/>
         </Grid>
       )}
     </>

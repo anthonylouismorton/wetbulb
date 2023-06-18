@@ -10,7 +10,7 @@ export default function App() {
     <>
       <NavBar/>
       <Main user={user}/>
-      <Footer/>
+      {/* <Footer/> */}
     </>
   );
 }

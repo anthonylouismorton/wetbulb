@@ -10,7 +10,7 @@ const footerStyles = {
   bottom: 0,
   width: '100%',
   height: '15px',
-  marginTop: '20px',
+  marginTop: '50px',
   color: '#ffffff',
   zIndex: 9999,
   
