@@ -47,13 +47,13 @@ export default function AlertList(props) {
   };
 
   const handleEditAlert = (alert) => {
-      props.onEditAlert(alert);
+      props.editAlert(alert);
   };
 
   useEffect(() => {
     getAlerts();
   }, [props.user]);
-  console.log(selectedAlert)
+
   return (
     <Grid item
       sx={{
@@ -74,11 +74,12 @@ export default function AlertList(props) {
                 <TableCell align="center">Frequency</TableCell>
                 <TableCell align="center">
                   <Tooltip title="Add Alert">
-                    <IconButton onClick={() => props.setnewalert(!props.newalert)}>
+                    <IconButton onClick={() => props.setAlertForm(!props.alertForm)}>
                       <NotificationAddIcon />
                     </IconButton>
                   </Tooltip>
                 </TableCell>
+                <TableCell align="center"></TableCell>
                 <TableCell align="center"></TableCell>
               </TableRow>
             </TableHead>
@@ -101,24 +102,26 @@ export default function AlertList(props) {
                       anchorEl={anchorEl}
                       onClose={handleClose}
                       anchorOrigin={{
-                        vertical: 'center',
-                        horizontal: 'right',
+                        vertical: 'bottom',
+                        horizontal: 'center',
                       }}
                       transformOrigin={{
-                        vertical: 'center',
-                        horizontal: 'left',
+                        vertical: 'top',
+                        horizontal: 'center',
                       }}
                     >
                       <Box sx={{ p: 2 }}>
-                        <Typography variant="body1" sx={{ marginBottom: 2 }}>
+                        <Typography variant="body2" sx={{ marginBottom: 2 }}>
                           Are you sure you want to remove this alert?
                         </Typography>
-                        <Button onClick={handleDelete} variant="contained" color="error" sx={{ marginRight: 1 }}>
-                          Yes
-                        </Button>
-                        <Button onClick={handleClose} variant="contained">
-                          Cancel
-                        </Button>
+                        <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+                          <Button onClick={handleDelete} variant="contained" color="error" sx={{ marginRight: 1 }}>
+                            Yes
+                          </Button>
+                          <Button onClick={handleClose} variant="contained">
+                            Cancel
+                          </Button>
+                        </Box>
                       </Box>
                     </Popover>
                   </TableCell>

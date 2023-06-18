@@ -5,20 +5,21 @@ import AlertList from './AlertList';
 import { Grid } from '@mui/material';
 
 export default function Dashboard(props) {
-  const [newalert, setnewalert] = useState(false);
+  const [newalert, setAlertForm] = useState(false);
   const [editAlert, setEditAlert] = useState(null);
 
   const handleEditAlert = (alert) => {
     setEditAlert(alert);
-    setnewalert(true);
+    setAlertForm(true);
   };
 
   return (
     <>
       {newalert && (
         <AlertForm
-          setnewalert={setnewalert}
+          setAlertForm={setAlertForm}
           editAlert={editAlert}
+          setEditAlert={setEditAlert}
         />
       )}
       {!newalert && (
@@ -34,8 +35,8 @@ export default function Dashboard(props) {
           <AlertList
             user={props.user}
             newalert={newalert}
-            setnewalert={setnewalert}
-            onEditAlert={handleEditAlert} // Pass onEditAlert handler
+            setAlertForm={setAlertForm}
+            editAlert={handleEditAlert}
           />
           <AlertHistory user={props.user} />
         </Grid>
