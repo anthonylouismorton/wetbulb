@@ -85,7 +85,7 @@ export default function AlertForm(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(props.editAlert.alert.alertId){
+    if(props.editAlert){
       await axios.put(`${process.env.REACT_APP_DATABASE}/alert/${props.editAlert.alert.alertId}`, alert, {headers: {"ngrok-skip-browser-warning": "69420"}})
     }
     else{
@@ -103,12 +103,22 @@ export default function AlertForm(props) {
       };
       let createdAlert = await axios.post(`${process.env.REACT_APP_DATABASE}/alert/`, newAlert);
       let alertId = parseInt(createdAlert.data.alertId);
-      await Promise.all(alert.emails.map(email => axios.post(`${process.env.REACT_APP_DATABASE}/alertEmail/${alertId}`, {headers: {"ngrok-skip-browser-warning": "69420"}}, {alertId: alertId, alertEmail: email})));
+      await Promise.all(alert.emails.map(email => axios.post(`${process.env.REACT_APP_DATABASE}/alertEmail/${alertId}`, {alertId: alertId, alertEmail: email}, {headers: {"ngrok-skip-browser-warning": "69420"}})));
     }
-    props.setnewalert(false);
+    props.setAlertForm(false);
+  };
+  const handleCancel = () => {
+    props.setAlertForm(false)
+    setalert({
+      address: '',
+      emails: [''],
+      flag: radio,
+      frequency: frequency
+    });
+    props.setEditAlert(null);
   };
   useEffect(() => {
-    if (props.editAlert.alert.alertId) {
+    if (props.editAlert) {
       setalert({
         address: props.editAlert.alert.location,
         emails: [],
@@ -116,6 +126,8 @@ export default function AlertForm(props) {
         frequency: props.editAlert.alert.frequency,
         alertId: props.editAlert.alert.alertId
       });
+      setRadio(props.editAlert.alert.flagCondition);
+      setfrequency(props.editAlert.alert.frequency)
     } else {
       setalert({
         address: '',
@@ -123,7 +135,7 @@ export default function AlertForm(props) {
         flag: radio,
         frequency: frequency
       });
-    }
+    };
   }, [props.editAlert]);
   console.log(alert)
   return (
@@ -229,7 +241,7 @@ export default function AlertForm(props) {
         }}
       >
         <Button type="submit" variant='contained'>Submit</Button>
-        <Button variant='contained' onClick={() => props.setnewalert(false)}>Cancel</Button>
+        <Button variant='contained' onClick={handleCancel}>Cancel</Button>
       </Grid>
       </form>
     </Paper>

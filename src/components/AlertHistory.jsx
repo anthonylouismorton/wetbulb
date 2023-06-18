@@ -1,8 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
-import axios from 'axios'
-import { ProgramContext } from '../context/program';
-import { useAuth0 } from '@auth0/auth0-react';
+import axios from 'axios';
 import { 
   Typography,
   Grid
@@ -10,9 +8,7 @@ import {
 from '@mui/material';
 
 export default function AlertHistory(props) {
-  const user = useContext(ProgramContext);
   const [wbgts, setwbgts] = useState([]);
-  const { isAuthenticated } = useAuth0();
   const columns = [
     { field: 'location', headerName: 'Location', width: 200 },
     { field: 'flagCondition', headerName: 'Flag', width: 130 },
@@ -23,53 +19,40 @@ export default function AlertHistory(props) {
   ];
 
   const getAllAlerts = async () => {
-    let wbgtList = []
-    let getWbgts = []
-    if(props.user !== undefined){
-      const dbAlerts = await axios.get(`${process.env.REACT_APP_DATABASE}/userwbgts/${props.user.name}`, {headers: {"ngrok-skip-browser-warning": "69420"}});
-      getWbgts = dbAlerts.data
-    if(getWbgts.length > 1){
-      wbgtList = getWbgts.map((wbgt) => {
-        let flag = ''
-        if(wbgt.directWBGT < 82){
-          flag = 'none'
-        }
-        else if(wbgt.directWBGT < 85){
-          flag = 'Green'
-        }
-        else if(wbgt.directWBGT < 88){
-          flag = 'Yellow'
-        }
-        else if(wbgt.directWBGT < 90){
-          flag = 'Red'
-        }
-        else if(wbgt.directWBGT > 90){
-          flag = 'Black'
+    try {
+      const dbAlerts = await axios.get(`${process.env.REACT_APP_DATABASE}/userwbgts/${props.user?.name}`, { headers: { "ngrok-skip-browser-warning": "69420" } });
+      const getWbgts = dbAlerts.data;
+      const wbgtList = getWbgts.map((wbgt) => {
+        let flag = '';
+        if (wbgt.directWBGT < 82) {
+          flag = 'none';
+        } else if (wbgt.directWBGT < 85) {
+          flag = 'Green';
+        } else if (wbgt.directWBGT < 88) {
+          flag = 'Yellow';
+        } else if (wbgt.directWBGT < 90) {
+          flag = 'Red';
+        } else if (wbgt.directWBGT > 90) {
+          flag = 'Black';
         }
         return {
           ...wbgt,
           location: wbgt.alert.location,
           flagCondition: flag,
-          id: wbgt.wbgtId,
-          // id: wbgt.wbgtId,
-          // location: wbgt.alert.location,
-          // flagCondition: flag,
-          // directWBGT: wbgt.directWBGT,
-          // shadedWBGT: wbgt.shadedWBGT,
-          // date: wbgt.date,
-          // time: wbgt.time,
-          // wbgtId: wbgt.wbgtId,
-          // alertId: wbgt.alertId
-        }
-      })
+          id: wbgt.wbgtId
+        };
+      });
+      setwbgts(wbgtList);
+    } catch (error) {
+      console.error('Error fetching alert history:', error);
     }
-    setwbgts(wbgtList)
-    }
-  }
+  };
+
   useEffect(() => {
-  getAllAlerts();
-  setInterval(getAllAlerts, 1000 * 60 * 60)
+    getAllAlerts();
+    // setInterval(getAllAlerts, 1000 * 60 * 60); // Consider using a more efficient approach to update the data
   }, [props.user]);
+
   return (
     <Grid
       item
@@ -81,21 +64,22 @@ export default function AlertHistory(props) {
         flexDirection: 'column'
       }}
     >
-    <Typography>Alert History</Typography>
-    <Grid 
-      sx={{ 
-      height: 400, 
-      width: '700px',
-      alignItems: 'center',
-      justifyContent: 'center',
-      }}>
-    <DataGrid
-      rows={wbgts}
-      columns={columns}
-      pageSize={5}
-      rowsPerPageOptions={[5]}
-    />
+      <Typography>Alert History</Typography>
+      <Grid
+        sx={{
+          height: 400,
+          width: '700px',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <DataGrid
+          rows={wbgts}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+        />
+      </Grid>
     </Grid>
-  </Grid>
   );
 }
