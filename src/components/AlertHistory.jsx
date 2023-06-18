@@ -50,9 +50,8 @@ export default function AlertHistory(props) {
 
   useEffect(() => {
     getAllAlerts();
-    // setInterval(getAllAlerts, 1000 * 60 * 60); // Consider using a more efficient approach to update the data
   }, [props.user]);
-
+  console.log(props)
   return (
     <Grid
       item
@@ -78,6 +77,7 @@ export default function AlertHistory(props) {
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
+          onRowClick={(params) => props.handleAlertClick(params.row)}
         />
       </Grid>
     </Grid>
