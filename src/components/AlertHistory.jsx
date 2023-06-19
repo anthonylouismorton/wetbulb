@@ -67,7 +67,7 @@ export default function AlertHistory(props) {
       <Grid
         sx={{
           height: 400,
-          width: '700px',
+          width: '815px',
           justifyContent: 'center',
           alignItems: 'center',
         }}

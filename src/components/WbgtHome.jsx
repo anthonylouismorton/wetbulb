@@ -35,6 +35,7 @@ const backgroundImageStyle = {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  margin: '25px'
 };
 
 export default function WbgtHome() {
