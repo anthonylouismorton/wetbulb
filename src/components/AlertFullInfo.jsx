@@ -70,7 +70,7 @@ export default function AlertFullInfo({ alert }) {
           </Box>
           <Box>
             <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Typography>Wet Bulb: {alert.wetBulb}</Typography>
+              <Typography>Wet Bulb: {alert.wetbulb}</Typography>
               <Typography>Humidity: {alert.humidity}</Typography>
               <Typography>Heat Index: {alert.heatIndex}</Typography>
             </Box>

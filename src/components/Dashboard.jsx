@@ -6,7 +6,7 @@ import AlertFullInfo from './AlertFullInfo';
 import { Modal, Box, Grid } from '@mui/material';
 
 export default function Dashboard(props) {
-  const [newalert, setAlertForm] = useState(false);
+  const [alertForm, setAlertForm] = useState(false);
   const [editAlert, setEditAlert] = useState(null);
   const [selectedAlert, setSelectedAlert] = useState(null);
   const [openModal, setOpenModal] = useState(false);
@@ -37,30 +37,34 @@ export default function Dashboard(props) {
           <AlertFullInfo alert={selectedAlert} />
         </>
       </Modal>
-      {newalert && (
+      {alertForm && (
         <AlertForm
           setAlertForm={setAlertForm}
           editAlert={editAlert}
           setEditAlert={setEditAlert}
         />
       )}
-      {!newalert && (
+      {!alertForm && (
         <Grid
           container
           sx={{
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            marginTop: '100px',
+            marginTop: '25px',
+            rowGap: '20px'
           }}
         >
+          <Grid>
           <AlertList
             user={props.user}
-            newalert={newalert}
             setAlertForm={setAlertForm}
             editAlert={handleEditAlert}
           />
+          </Grid>
+          <Grid>
           <AlertHistory user={props.user} handleAlertClick={handleAlertClick}/>
+          </Grid>
         </Grid>
       )}
     </>

@@ -117,8 +117,8 @@ export default function NavBar(props){
                 </Link>
               </MenuItem>
               }
-              <MenuItem key={'About'} onClick={()=> handleCloseNavMenu('Vents')}>
-                <Link to = '/Vents' style={{ textDecoration: 'none' }}>
+              <MenuItem key={'About'} onClick={()=> handleCloseNavMenu('About')}>
+                <Link to = '/About' style={{ textDecoration: 'none' }}>
                   <Typography textAlign="center">About</Typography>
                 </Link>
               </MenuItem>
