@@ -8,7 +8,8 @@ export default function AlertFullInfo({ alert }) {
 
   const headingSyles = {
     fontSize: '20px',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    marginBottom: '5px'
     
   };
 
@@ -17,6 +18,7 @@ export default function AlertFullInfo({ alert }) {
     textAlign: 'center',
     
   };
+ 
 
   const style = {
     display: 'flex',
@@ -39,40 +41,38 @@ export default function AlertFullInfo({ alert }) {
       <Box sx={columnStyles}>
         <Typography sx={headingSyles}>Location</Typography>
         <Box>
-          <Typography>{alert.location}</Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
-          <Typography>Lat: {alert.alert.lat}</Typography>
-          <Typography>Lon: {alert.alert.lon}</Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
+          <Typography>{alert.location} ({alert.alert.lat}, {alert.alert.lon})</Typography>
           </Box>
         </Box>
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly' }}>
         <Box sx={columnStyles}>
           <Typography sx={headingSyles}>WBGT</Typography>
-          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Typography>Direct WBGT: {alert.directWBGT}</Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: 'left'}}>
+            <Box>
+            <Typography>Direct WBGT: {alert.directWBGT}°F</Typography>
             <Typography>Flag: {alert.flagCondition}</Typography>
-          </Box>
-          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-            <Typography>Shaded WBGT: {alert.shadedWBGT}</Typography>
-            <Typography>Fits: {alert.fits}</Typography>
+            <Typography>Shaded WBGT: {alert.shadedWBGT}°F</Typography>
+            <Typography>Fits: {alert.fits}°F</Typography>
+            </Box>
           </Box>
         </Box>
-        <Box sx={columnStyles}>
+        <Box sx={{textAlign: 'center', padding: '10px', width: '350px'}}>
           <Typography sx={headingSyles}>Weather</Typography>
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
             <Typography>Date: {alert.date}</Typography>
-            <Typography>Time: {alert.time}</Typography>
-          </Box>
-          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
             <Typography>Barometer: {alert.barometer}</Typography>
-            <Typography>Solar Radiance: {alert.solarRadiance}</Typography>
+            <Typography>Humidity: {alert.humidity}%</Typography>
           </Box>
           <Box>
-            <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Typography>Wet Bulb: {alert.wetbulb}</Typography>
-              <Typography>Humidity: {alert.humidity}</Typography>
-              <Typography>Heat Index: {alert.heatIndex}</Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
+              <Typography>Time: {alert.time}</Typography>
+              <Typography>Wet Bulb: {alert.wetbulb}°F</Typography>
+              <Typography>Heat Index: {alert.heatIndex}°F</Typography>
+              <Typography>Solar Radiance: {alert.solarRadiance}</Typography>
+            </Box>
             </Box>
           </Box>
         </Box>

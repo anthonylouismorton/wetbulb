@@ -11,9 +11,9 @@ export default function AlertHistory(props) {
   const [wbgts, setwbgts] = useState([]);
   const columns = [
     { field: 'location', headerName: 'Location', width: 200 },
-    { field: 'flagCondition', headerName: 'Flag', width: 130 },
     { field: 'directWBGT', headerName: 'Direct WBGT (\u00B0F)', width: 130 },
-    { field: 'shadedWBGT', headerName: 'Shaded WBGT (\u00B0F)', width: 150 },
+    { field: 'flagCondition', headerName: 'Flag', width: 130 },
+    // { field: 'shadedWBGT', headerName: 'Shaded WBGT (\u00B0F)', width: 150 },
     { field: 'date', headerName: 'Date', width: 100 },
     { field: 'time', headerName: 'Time', width: 100 }
   ];
@@ -42,6 +42,7 @@ export default function AlertHistory(props) {
           id: wbgt.wbgtId
         };
       });
+      console.log(wbgtList)
       setwbgts(wbgtList);
     } catch (error) {
       console.error('Error fetching alert history:', error);
@@ -50,29 +51,39 @@ export default function AlertHistory(props) {
 
   useEffect(() => {
     getAllAlerts();
+     setInterval(getAllAlerts, 1000 * 60 * 60);
   }, [props.user]);
-  console.log(props)
+ 
   return (
     <Grid
       item
       sx={{
         display: 'flex',
         alignItems: 'center',
-        columnGap: '10px',
-        marginBottom: '20px',
         flexDirection: 'column'
       }}
     >
-      <Typography>Alert History</Typography>
+      <Typography variant='h4'>Alert History</Typography>
       <Grid
         sx={{
+          marginTop: '25px',
           height: 400,
-          width: '815px',
+          width: '680px',
           justifyContent: 'center',
           alignItems: 'center',
         }}
       >
         <DataGrid
+          sx={{
+            // disable cell selection style
+            '.MuiDataGrid-cell:focus': {
+              outline: 'none'
+            },
+            // pointer cursor on ALL rows
+            '& .MuiDataGrid-row:hover': {
+              cursor: 'pointer'
+            }
+          }}
           rows={wbgts}
           columns={columns}
           pageSize={5}
