@@ -51,7 +51,7 @@ export default function AlertHistory(props) {
 
   useEffect(() => {
     getAllAlerts();
-     setInterval(getAllAlerts, 1000 * 60 * 60);
+    //  setInterval(getAllAlerts, 1000 * 60 * 60);
   }, [props.user]);
  
   return (

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Accordion, AccordionSummary, AccordionDetails, Typography, Link } from '@mui/material';
+import { Accordion, AccordionSummary, AccordionDetails, Typography, Link, useTheme } from '@mui/material';
 
 export default function FAQs({ faqs }) {
   const [expandedIndex, setExpandedIndex] = useState(null);
-
+  const theme = useTheme();
   const handleAccordionChange = (index) => {
     if (index === expandedIndex) {
       setExpandedIndex(null);
@@ -22,8 +22,13 @@ export default function FAQs({ faqs }) {
         >
           <AccordionSummary
             sx={{
-              backgroundColor: index === expandedIndex ? 'lightblue' : 'inherit',
+              backgroundColor: index === expandedIndex ? theme.palette.primary.main : 'inherit',
               transition: 'background-color 0.3s ease',
+              textAlign: 'center',
+              '& .MuiAccordionSummary-content': {
+                justifyContent: 'center',
+                alignItems: 'center',
+              },
             }}
           >
             <Typography>{faq.question}</Typography>

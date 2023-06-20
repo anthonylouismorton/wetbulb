@@ -12,7 +12,7 @@ const FlagConditionsTable = () => {
 
   return (
     <Box sx={{ width: '90vw', border: '2px solid black', marginTop: '100px' }}>
-      <TableContainer component={Paper}>
+      <TableContainer>
         <Table sx={{ borderCollapse: 'collapse' }}>
           <TableHead>
             <TableRow>
@@ -24,7 +24,7 @@ const FlagConditionsTable = () => {
               <TableCell style={{ border: '2px solid black', textAlign: 'center' }}>Flag Condition</TableCell>
               <TableCell style={{ border: '2px solid black', textAlign: 'center' }}>WBGT Index</TableCell>
               <TableCell style={{ border: '2px solid black', textAlign: 'center' }}>Work/Rest Recommendations</TableCell>
-              <TableCell style={{ border: '2px solid black', textAlign: 'center', borderTop: '2px solid white' }}>Water Consumption Recommendations</TableCell>
+              <TableCell style={{ border: '2px solid black', textAlign: 'center' }}>Water Consumption Recommendations</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

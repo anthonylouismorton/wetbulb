@@ -10,16 +10,13 @@ export default function AlertFullInfo({ alert }) {
     fontSize: '20px',
     fontWeight: 'bold',
     marginBottom: '5px'
-    
   };
 
   const columnStyles = {
     padding: '10px',
     textAlign: 'center',
-    
   };
  
-
   const style = {
     display: 'flex',
     flexDirection: 'column',
@@ -58,12 +55,12 @@ export default function AlertFullInfo({ alert }) {
             </Box>
           </Box>
         </Box>
-        <Box sx={{textAlign: 'center', padding: '10px', width: '350px'}}>
+        <Box sx={{textAlign: 'center', padding: '10px', width: '400px'}}>
           <Typography sx={headingSyles}>Weather</Typography>
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
             <Typography>Date: {alert.date}</Typography>
-            <Typography>Barometer: {alert.barometer}</Typography>
+            <Typography>Barometer: {alert.barometer} inHg</Typography>
             <Typography>Humidity: {alert.humidity}%</Typography>
           </Box>
           <Box>
@@ -71,7 +68,7 @@ export default function AlertFullInfo({ alert }) {
               <Typography>Time: {alert.time}</Typography>
               <Typography>Wet Bulb: {alert.wetbulb}°F</Typography>
               <Typography>Heat Index: {alert.heatIndex}°F</Typography>
-              <Typography>Solar Radiance: {alert.solarRadiance}</Typography>
+              <Typography component="span">Solar Irradiance: {alert.solarRadiance} W/m<sup>2</sup></Typography>
             </Box>
             </Box>
           </Box>
