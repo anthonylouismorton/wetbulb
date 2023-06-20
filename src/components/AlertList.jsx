@@ -63,15 +63,21 @@ export default function AlertList(props) {
         alignItems: 'center'
       }}
     >
-      <Typography>Alerts</Typography>
-      <Grid item>
+      <Typography variant='h4'>Alerts</Typography>
+      <Grid item
+        sx={{
+          marginTop: '25px',
+        }}
+      >
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 750, width: 750 }} aria-label="simple table">
+          <Table sx={{ minWidth: 600, width: 600 }} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell align="center">Location</TableCell>
                 <TableCell align="center">Flag</TableCell>
                 <TableCell align="center">Frequency</TableCell>
+                <TableCell align="center">Delete</TableCell>
+                <TableCell align="center">Edit</TableCell>
                 <TableCell align="center">
                   <Tooltip title="Add Alert">
                     <IconButton onClick={() => props.setAlertForm(!props.alertForm)}>
@@ -79,8 +85,6 @@ export default function AlertList(props) {
                     </IconButton>
                   </Tooltip>
                 </TableCell>
-                <TableCell align="center"></TableCell>
-                <TableCell align="center"></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -133,7 +137,7 @@ export default function AlertList(props) {
                   </Tooltip>
                   </TableCell>
                   <TableCell align="center">
-            </TableCell>
+                </TableCell>
                 </TableRow>
               )) :
                 <TableRow align="center">

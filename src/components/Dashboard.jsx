@@ -49,10 +49,11 @@ export default function Dashboard(props) {
           container
           sx={{
             display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: '25px',
+            justifyContent: 'space-evenly',
+            alignItems: 'flex-start',
+            marginTop: '50px',
             rowGap: '20px'
+
           }}
         >
           <Grid>
