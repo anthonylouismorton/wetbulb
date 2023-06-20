@@ -43,7 +43,7 @@ export default function Quickresults(props) {
           />
           <TextField
             value={`${props.information.wbgtInfo.solarRadiance}`}
-            label={'Estimated Solar Radiance (W/m)'}
+            label={'Estimated Solar Irradiance (W/m\u00B2)'}
           />
           <TextField
             value={`${props.information.wbgtInfo.fits}`}
@@ -61,7 +61,7 @@ export default function Quickresults(props) {
           >
           <TextField
             value={`${props.information.weatherInfo.barometer}`}
-            label={'Barometer (in/Hg)'}
+            label={'Barometer (inHg)'}
           />
           <TextField
             value={`${props.information.weatherInfo.humidity}`}
