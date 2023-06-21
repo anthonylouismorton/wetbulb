@@ -6,6 +6,8 @@ import {
   Grid
 } 
 from '@mui/material';
+import io from 'socket.io-client';
+const socket = io(`${process.env.REACT_APP_WEBSOCKETSERVER}`);
 
 export default function AlertHistory(props) {
   const [wbgts, setwbgts] = useState([]);
@@ -50,9 +52,27 @@ export default function AlertHistory(props) {
   };
 
   useEffect(() => {
-    getAllAlerts();
+    //getAllAlerts();
+    socket.on('connect', () => {
+      // Update the alerts state with the received alerts
+      console.log('Connected to server');
+    });
+    socket.on('disconnect', () => {
+      // Update the alerts state with the received alerts
+      console.log('Disconnected from server');
+    });
+    socket.on('alerts', (data) => {
+      console.log(data)
+      setwbgts(data);
+    });
+
+
+    return () => {
+      // Clean up the socket connection on component unmount
+      socket.disconnect();
+    }
     //  setInterval(getAllAlerts, 1000 * 60 * 60);
-  }, [props.user]);
+  }, []);
  
   return (
     <Grid
