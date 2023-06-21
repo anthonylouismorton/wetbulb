@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import io from 'socket.io-client';
 import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 import { 
@@ -6,8 +7,6 @@ import {
   Grid
 } 
 from '@mui/material';
-import io from 'socket.io-client';
-const socket = io(`${process.env.REACT_APP_WEBSOCKETSERVER}`);
 
 export default function AlertHistory(props) {
   const [wbgts, setwbgts] = useState([]);
@@ -52,27 +51,45 @@ export default function AlertHistory(props) {
   };
 
   useEffect(() => {
-    getAllAlerts();
-    // socket.on('connect', () => {
-    //   // Update the alerts state with the received alerts
-    //   console.log('Connected to server');
-    // });
-    // socket.on('disconnect', () => {
-    //   // Update the alerts state with the received alerts
-    //   console.log('Disconnected from server');
-    // });
-    // socket.on('alerts', (data) => {
-    //   console.log(data)
-    //   setwbgts(data);
-    // });
-
-
-    // return () => {
-    //   // Clean up the socket connection on component unmount
-    //   // socket.disconnect();
-    // }
-    //  setInterval(getAllAlerts, 1000 * 60 * 60);
+    // Establish Socket.IO connection
+    const socket = io(`${process.env.REACT_APP_WEBSOCKETSERVER}`); // Replace with your Socket.IO server URL
+    console.log(socket)
+    // Listen for the 'message' event
+    socket.on('message', (message) => {
+      console.log('Received message:', message);
+      // Handle the received message in your React component
+    });
+  
+    // Clean up the Socket.IO connection on unmount
+    return () => {
+      socket.disconnect();
+    };
   }, []);
+  // useEffect(() => {
+  //   getAllAlerts();
+  //   // socket.on('connect', () => {
+  //   //   // Update the alerts state with the received alerts
+  //   //   console.log('Connected to server');
+  //   // });
+  //   // socket.on('disconnect', () => {
+  //   //   // Update the alerts state with the received alerts
+  //   //   console.log('Disconnected from server');
+  //   // });
+  //   // socket.on('alerts', (data) => {
+  //   //   console.log(data)
+  //   //   setwbgts(data);
+  //   // });
+
+
+  //   // return () => {
+  //   //   // Clean up the socket connection on component unmount
+  //   //   // socket.disconnect();
+  //   // }
+  //   //  setInterval(getAllAlerts, 1000 * 60 * 60);
+  // }, []);
+
+  // const socket = io();
+  // console.log(socket)
  
   return (
     <Grid
