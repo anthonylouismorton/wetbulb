@@ -49,23 +49,22 @@ export default function About() {
   ];
 
   return (
-<Box sx={{ textAlign: 'center', marginTop: '50px' }}>
-  <Box sx={{ marginBottom: '5px' }}>
-    <Typography variant="h4">Contact Us</Typography>
-  </Box>
-  <Box sx={{ marginBottom: '5px' }}>
-    <Typography variant="h6">Prestige Worldwide Web Design LLC</Typography>
-  </Box>
-  <Box sx={{ marginBottom: '5px' }}>
-    <Typography>Email: prestigeworldwidewebdesignllc@gmail.com</Typography>
-  </Box>
-  <Box sx={{ marginTop: '35px' }}>
-    <Typography variant="h4">Frequently Asked Questions</Typography>
-    <Box sx={{ margin: '35px 200px' }}>
-      <FAQs faqs={faqs} />
+  <Box sx={{ textAlign: 'center', marginTop: '50px' }}>
+    <Box sx={{ marginBottom: '5px' }}>
+      <Typography variant="h4">Contact Us</Typography>
+    </Box>
+    <Box sx={{ marginBottom: '5px' }}>
+      <Typography variant="h6">Prestige Worldwide Web Design LLC</Typography>
+    </Box>
+    <Box sx={{ marginBottom: '5px' }}>
+      <Typography>Email: prestigeworldwidewebdesignllc@gmail.com</Typography>
+    </Box>
+    <Box sx={{ marginTop: '35px' }}>
+      <Typography variant="h4">Frequently Asked Questions</Typography>
+      <Box sx={{ margin: '35px 200px' }}>
+        <FAQs faqs={faqs} />
+      </Box>
     </Box>
   </Box>
-</Box>
-
   );
 }
