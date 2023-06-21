@@ -52,25 +52,25 @@ export default function AlertHistory(props) {
   };
 
   useEffect(() => {
-    //getAllAlerts();
-    socket.on('connect', () => {
-      // Update the alerts state with the received alerts
-      console.log('Connected to server');
-    });
-    socket.on('disconnect', () => {
-      // Update the alerts state with the received alerts
-      console.log('Disconnected from server');
-    });
-    socket.on('alerts', (data) => {
-      console.log(data)
-      setwbgts(data);
-    });
+    getAllAlerts();
+    // socket.on('connect', () => {
+    //   // Update the alerts state with the received alerts
+    //   console.log('Connected to server');
+    // });
+    // socket.on('disconnect', () => {
+    //   // Update the alerts state with the received alerts
+    //   console.log('Disconnected from server');
+    // });
+    // socket.on('alerts', (data) => {
+    //   console.log(data)
+    //   setwbgts(data);
+    // });
 
 
-    return () => {
-      // Clean up the socket connection on component unmount
-      socket.disconnect();
-    }
+    // return () => {
+    //   // Clean up the socket connection on component unmount
+    //   // socket.disconnect();
+    // }
     //  setInterval(getAllAlerts, 1000 * 60 * 60);
   }, []);
  
