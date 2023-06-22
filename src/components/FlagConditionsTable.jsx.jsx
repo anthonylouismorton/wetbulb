@@ -11,7 +11,7 @@ const FlagConditionsTable = () => {
   ];
 
   return (
-    <Box sx={{ width: '90vw', border: '2px solid black', marginTop: '100px' }}>
+    <Box sx={{ width: '90vw', border: '2px solid black', marginTop: '100px', marginBottom: '50px' }}>
       <TableContainer>
         <Table sx={{ borderCollapse: 'collapse' }}>
           <TableHead>

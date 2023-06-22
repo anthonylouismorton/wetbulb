@@ -1,89 +1,108 @@
 import React from 'react';
-import {
-  TextField,
-  Grid,
-  Typography,
-} from '@mui/material';
+import { TextField, Grid, Typography } from '@mui/material';
+
+const textfieldStyles = {
+  width: '225px' // Adjust the value to your desired minimum width
+};
+const textGridStyles = {
+  xl: 2,
+  lg: 3,
+  md: 4,
+  sm: 6,
+  xs: 12,
+  display: 'flex',
+  justifyContent: 'center'
+}
 
 export default function Quickresults(props) {
-  console.log(props.information)
   return (
     <Grid
-    item
-    sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginTop: '35px',
-      marginBottom: '35px',
-      flexDirection: 'column',
-      rowGap: '10px'
-    }}
-    > 
-      <Typography></Typography>
-      <Grid
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          columnGap: '10px',
-          marginBottom: '20px'
-        }}
-      >
+      container
+      direction="column"
+      alignItems="center"
+      spacing={3}
+      sx={{ marginTop: '50px' }}
+    >
+      <Typography variant="h6">Weather Information</Typography>
+      <Grid container item spacing={3} display = 'flex' justifyContent = 'center'>
+        <Grid item sx={textGridStyles}>
           <TextField
+            sx={textfieldStyles}
             value={`${props.information.wbgtInfo.directWBGT}`}
-            label={'Direct WBGT (\u00B0F)'}
+            label="Direct WBGT (°F)"
           />
+        </Grid>
+        <Grid item sx={textGridStyles}>
           <TextField
+            sx={textfieldStyles}
             value={`${props.information.wbgtInfo.shadedWBGT}`}
-            label={'Shaded WBGT (\u00B0F)'}
+            label="Shaded WBGT (°F)"
           />
+        </Grid>
+        <Grid item sx={textGridStyles}>
           <TextField
+            sx={textfieldStyles}
             value={`${props.information.wbgtInfo.heatIndex}`}
-            label={'Heat Index (\u00B0F)'}
+            label="Heat Index (°F)"
           />
+        </Grid>
+        <Grid item sx={textGridStyles}>
           <TextField
+            sx={textfieldStyles}
             value={`${props.information.wbgtInfo.solarRadiance}`}
-            label={'Estimated Solar Irradiance (W/m\u00B2)'}
+            label="Est Solar Irradiance (W/m²)"
           />
+        </Grid>
+        <Grid item sx={textGridStyles}>
           <TextField
+            sx={textfieldStyles}
             value={`${props.information.wbgtInfo.fits}`}
-            label={'Fits (\u00B0F)'}
+            label="Fits (°F)"
           />
         </Grid>
-        <Typography>Weather Information</Typography>
-        <Grid
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            marginTop: '10px',
-            columnGap: '10px'
-          }}
-          >
+        <Grid item sx={textGridStyles}>
           <TextField
+            sx={textfieldStyles}
             value={`${props.information.weatherInfo.barometer}`}
-            label={'Barometer (inHg)'}
-          />
-          <TextField
-            value={`${props.information.weatherInfo.humidity}`}
-            label={'Humidity (%)'}
-          />
-          <TextField
-            value={`${props.information.weatherInfo.temperature}`}
-            label={'Dry Temp (\u00B0F)'}
-          />
-          <TextField
-            value={`${props.information.weatherInfo.wetbulb}`}
-            label={'Wetbulb (\u00B0F)'}
-          />
-          <TextField
-            value={`${props.information.weatherInfo.windspeed}`}
-            label={'Wind Speed (MPH)'}
-          />
-          <TextField
-            value={`${props.information.dateTimeInfo.time}`}
-            label={'Weather Time Stamp'}
+            label="Barometer (inHg)"
           />
         </Grid>
+        <Grid item sx={textGridStyles}>
+          <TextField
+            sx={textfieldStyles}
+            value={`${props.information.weatherInfo.humidity}`}
+            label="Humidity (%)"
+          />
+        </Grid>
+        <Grid item sx={textGridStyles}>
+          <TextField
+            sx={textfieldStyles}
+            value={`${props.information.weatherInfo.temperature}`}
+            label="Dry Temp (°F)"
+          />
+        </Grid>
+        <Grid item sx={textGridStyles}>
+          <TextField
+            sx={textfieldStyles}
+            value={`${props.information.weatherInfo.wetbulb}`}
+            label="Wetbulb (°F)"
+          />
+        </Grid>
+        <Grid item sx={textGridStyles}>
+          <TextField
+            sx={textfieldStyles}
+            value={`${props.information.weatherInfo.windspeed}`}
+            label="Wind Speed (MPH)"
+          />
+        </Grid>
+        <Grid item sx={textGridStyles}>
+          <TextField
+            sx={textfieldStyles}
+            value={`${props.information.dateTimeInfo.time}`}
+            label="Weather Time Stamp"
+          />
+        </Grid>
+      </Grid>
     </Grid>
-  )
+  );
 }
