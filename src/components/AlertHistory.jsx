@@ -43,53 +43,34 @@ export default function AlertHistory(props) {
           id: wbgt.wbgtId
         };
       });
-      console.log(wbgtList)
       setwbgts(wbgtList);
-    } catch (error) {
-      console.error('Error fetching alert history:', error);
+    } catch (e) {
+      console.log(e);
     }
   };
 
   useEffect(() => {
-    // Establish Socket.IO connection
-    const socket = io(`${process.env.REACT_APP_WEBSOCKETSERVER}`); // Replace with your Socket.IO server URL
-    console.log(socket)
-    // Listen for the 'message' event
-    socket.on('message', (message) => {
-      console.log('Received message:', message);
-      // Handle the received message in your React component
-    });
+    function getAllAlertsAndSetInterval() {
+      getAllAlerts();
+      setInterval(getAllAlerts, 1000 * 60 * 60);
+    }
   
-    // Clean up the Socket.IO connection on unmount
+    const currentTime = new Date();
+    currentTime.setHours(currentTime.getHours() + 1);
+    currentTime.setMinutes(5);
+    const fiveMinutesPastNextHour = currentTime - new Date();
+  
+    const timeout = setTimeout(() => {
+      getAllAlertsAndSetInterval();
+      setInterval(getAllAlerts, 1000 * 60 * 60);
+    }, fiveMinutesPastNextHour);
+  
+    getAllAlertsAndSetInterval();
+  
     return () => {
-      socket.disconnect();
+      clearTimeout(timeout);
     };
   }, []);
-  // useEffect(() => {
-  //   getAllAlerts();
-  //   // socket.on('connect', () => {
-  //   //   // Update the alerts state with the received alerts
-  //   //   console.log('Connected to server');
-  //   // });
-  //   // socket.on('disconnect', () => {
-  //   //   // Update the alerts state with the received alerts
-  //   //   console.log('Disconnected from server');
-  //   // });
-  //   // socket.on('alerts', (data) => {
-  //   //   console.log(data)
-  //   //   setwbgts(data);
-  //   // });
-
-
-  //   // return () => {
-  //   //   // Clean up the socket connection on component unmount
-  //   //   // socket.disconnect();
-  //   // }
-  //   //  setInterval(getAllAlerts, 1000 * 60 * 60);
-  // }, []);
-
-  // const socket = io();
-  // console.log(socket)
  
   return (
     <Grid
