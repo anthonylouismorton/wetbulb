@@ -10,6 +10,7 @@ from '@mui/material';
 
 export default function AlertHistory(props) {
   const [wbgts, setwbgts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const columns = [
     { field: 'location', headerName: 'Location', width: 200 },
     { field: 'directWBGT', headerName: 'Direct WBGT (\u00B0F)', width: 130 },
@@ -43,35 +44,55 @@ export default function AlertHistory(props) {
           id: wbgt.wbgtId
         };
       });
+      console.log('getting in here')
       setwbgts(wbgtList);
     } catch (e) {
       console.log(e);
     }
   };
 
+  // useEffect(() => {
+  //   function getAllAlertsAndSetInterval() {
+  //     getAllAlerts();
+  //     setInterval(getAllAlerts, 1000 * 60 * 60);
+  //   }
+  
+  //   const currentTime = new Date();
+  //   currentTime.setHours(currentTime.getHours() + 1);
+  //   currentTime.setMinutes(5);
+  //   const fiveMinutesPastNextHour = currentTime - new Date();
+  
+  //   const timeout = setTimeout(() => {
+  //     getAllAlertsAndSetInterval();
+  //     setInterval(getAllAlerts, 1000 * 60 * 60);
+  //   }, fiveMinutesPastNextHour);
+  
+  //   getAllAlertsAndSetInterval();
+  
+  //   return () => {
+  //     clearTimeout(timeout);
+  //   };
+  // }, [props.user]);
+
   useEffect(() => {
-    function getAllAlertsAndSetInterval() {
-      getAllAlerts();
-      setInterval(getAllAlerts, 1000 * 60 * 60);
-    }
-  
-    const currentTime = new Date();
-    currentTime.setHours(currentTime.getHours() + 1);
-    currentTime.setMinutes(5);
-    const fiveMinutesPastNextHour = currentTime - new Date();
-  
-    const timeout = setTimeout(() => {
-      getAllAlertsAndSetInterval();
-      setInterval(getAllAlerts, 1000 * 60 * 60);
-    }, fiveMinutesPastNextHour);
-  
-    getAllAlertsAndSetInterval();
-  
+    getAllAlerts();
+    const socket = io(`${process.env.REACT_APP_DATABASE}`, {
+      extraHeaders: {
+        'ngrok-skip-browser-warning': 'true'
+      }
+    });
+    socket.on('message', (message) => {
+      console.log('Received message:', message);
+      // Handle the received message in your React component
+    });
+
+    // Clean up the Socket.IO connection on unmount
     return () => {
-      clearTimeout(timeout);
+      socket.disconnect();
     };
   }, []);
- 
+  
+
   return (
     <Grid
       item
