@@ -10,7 +10,6 @@ from '@mui/material';
 
 export default function AlertHistory(props) {
   const [wbgts, setwbgts] = useState([]);
-  const [loading, setLoading] = useState(true);
   const columns = [
     { field: 'location', headerName: 'Location', width: 200 },
     { field: 'directWBGT', headerName: 'Direct WBGT (\u00B0F)', width: 130 },
@@ -44,7 +43,6 @@ export default function AlertHistory(props) {
           id: wbgt.wbgtId
         };
       });
-      console.log('getting in here')
       setwbgts(wbgtList);
     } catch (e) {
       console.log(e);
@@ -82,15 +80,18 @@ export default function AlertHistory(props) {
       }
     });
     socket.on('message', (message) => {
-      console.log('Received message:', message);
       // Handle the received message in your React component
+      console.log(message)
     });
+    socket.on('wbgt', (wbgt) => {
+      console.log(wbgt)
+    })
 
     // Clean up the Socket.IO connection on unmount
     return () => {
       socket.disconnect();
     };
-  }, []);
+  }, [props.user]);
   
 
   return (
