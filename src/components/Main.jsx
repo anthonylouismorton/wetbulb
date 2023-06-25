@@ -1,6 +1,6 @@
 import React from "react";
 import Quicksearch from "./Quicksearch";
-import Dashboard from "./Dashboard";
+import Dashboard from "./Dashboard/Dashboard";
 import WbgtHome from "./WbgtHome";
 import About from "./About";
 import { Routes, Route } from 'react-router-dom';

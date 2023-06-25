@@ -49,7 +49,7 @@ export default function AlertFullInfo({ alert }) {
           <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: 'left'}}>
             <Box>
             <Typography>Direct WBGT: {alert.directWBGT}°F</Typography>
-            <Typography>Flag: {alert.flagCondition}</Typography>
+            <Typography>Flag: {alert.flag}</Typography>
             <Typography>Shaded WBGT: {alert.shadedWBGT}°F</Typography>
             <Typography>Fits: {alert.fits}°F</Typography>
             </Box>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AlertForm from "./AlertForm";
+import AlertForm from "./AlertForm/AlertForm";
 import AlertHistory from "./AlertHistory";
 import AlertList from './AlertList';
 import AlertFullInfo from './AlertFullInfo';

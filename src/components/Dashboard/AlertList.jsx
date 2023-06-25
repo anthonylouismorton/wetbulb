@@ -75,7 +75,6 @@ export default function AlertList(props) {
               <TableRow>
                 <TableCell align="center">Location</TableCell>
                 <TableCell align="center">Flag</TableCell>
-                <TableCell align="center">Frequency</TableCell>
                 <TableCell align="center">Delete</TableCell>
                 <TableCell align="center">Edit</TableCell>
                 <TableCell align="center">
@@ -93,8 +92,7 @@ export default function AlertList(props) {
                   key={row.alert.alertId}
                 >
                   <TableCell align="center">{row.alert.location}</TableCell>
-                  <TableCell align="center">{row.alert.flagCondition}</TableCell>
-                  <TableCell align="center">{row.alert.frequency}</TableCell>
+                  <TableCell align="center">{row.alert.flag}</TableCell>
                   <TableCell align="center">
                     <Tooltip title="Remove Alert">
                       <IconButton onClick={(event) => deleteHandler(event, row.alert.alertId)}>

@@ -13,7 +13,7 @@ export default function AlertHistory(props) {
   const columns = [
     { field: 'location', headerName: 'Location', width: 200 },
     { field: 'directWBGT', headerName: 'Direct WBGT (\u00B0F)', width: 130 },
-    { field: 'flagCondition', headerName: 'Flag', width: 130 },
+    { field: 'flag', headerName: 'Flag', width: 130 },
     // { field: 'shadedWBGT', headerName: 'Shaded WBGT (\u00B0F)', width: 150 },
     { field: 'date', headerName: 'Date', width: 100 },
     { field: 'time', headerName: 'Time', width: 100 }
@@ -24,22 +24,21 @@ export default function AlertHistory(props) {
       const dbAlerts = await axios.get(`${process.env.REACT_APP_DATABASE}/userwbgts/${props.user?.name}`, { headers: { "ngrok-skip-browser-warning": "69420" } });
       const getWbgts = dbAlerts.data;
       const wbgtList = getWbgts.map((wbgt) => {
-        let flag = '';
-        if (wbgt.directWBGT < 82) {
-          flag = 'none';
-        } else if (wbgt.directWBGT < 85) {
-          flag = 'Green';
-        } else if (wbgt.directWBGT < 88) {
-          flag = 'Yellow';
-        } else if (wbgt.directWBGT < 90) {
-          flag = 'Red';
-        } else if (wbgt.directWBGT > 90) {
-          flag = 'Black';
-        }
+        // let flag = '';
+        // if (wbgt.directWBGT < 82) {
+        //   flag = 'none';
+        // } else if (wbgt.directWBGT < 85) {
+        //   flag = 'Green';
+        // } else if (wbgt.directWBGT < 88) {
+        //   flag = 'Yellow';
+        // } else if (wbgt.directWBGT < 90) {
+        //   flag = 'Red';
+        // } else if (wbgt.directWBGT > 90) {
+        //   flag = 'Black';
+        // }
         return {
           ...wbgt,
           location: wbgt.alert.location,
-          flagCondition: flag,
           id: wbgt.wbgtId
         };
       });
@@ -48,29 +47,6 @@ export default function AlertHistory(props) {
       console.log(e);
     }
   };
-
-  // useEffect(() => {
-  //   function getAllAlertsAndSetInterval() {
-  //     getAllAlerts();
-  //     setInterval(getAllAlerts, 1000 * 60 * 60);
-  //   }
-  
-  //   const currentTime = new Date();
-  //   currentTime.setHours(currentTime.getHours() + 1);
-  //   currentTime.setMinutes(5);
-  //   const fiveMinutesPastNextHour = currentTime - new Date();
-  
-  //   const timeout = setTimeout(() => {
-  //     getAllAlertsAndSetInterval();
-  //     setInterval(getAllAlerts, 1000 * 60 * 60);
-  //   }, fiveMinutesPastNextHour);
-  
-  //   getAllAlertsAndSetInterval();
-  
-  //   return () => {
-  //     clearTimeout(timeout);
-  //   };
-  // }, [props.user]);
 
   useEffect(() => {
     getAllAlerts();
@@ -83,9 +59,19 @@ export default function AlertHistory(props) {
       // Handle the received message in your React component
       console.log(message)
     });
-    socket.on('wbgt', (wbgt) => {
-      console.log(wbgt)
-    })
+    if(props.user){
+      socket.on(`${props.user.name}Wbgt`, (wbgt) => {
+        console.log(wbgt)
+        setwbgts(prevWbgts => [...prevWbgts,
+          {id: wbgt.createdWbgt.wbgtId,
+            ...wbgt.createdWbgt, 
+            location: wbgt.alert.location,
+            lat: wbgt.alert.lat,
+            lon: wbgt.alert.lon,
+            alert: wbgt.alert
+          }])
+      })
+    }
 
     // Clean up the Socket.IO connection on unmount
     return () => {
@@ -93,7 +79,7 @@ export default function AlertHistory(props) {
     };
   }, [props.user]);
   
-
+  console.log(wbgts)
   return (
     <Grid
       item
