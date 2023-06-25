@@ -2,18 +2,15 @@ import React, { useState } from 'react';
 import { Grid, Typography, Checkbox } from '@mui/material';
 
 const Weekdays = (props) => {
-
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
     const numericValue = parseInt(name);
 
     if (checked) {
-      // Add the numeric value to the array and sort it
       props.setSelectedDays((prevSelectedDays) =>
         [...prevSelectedDays, numericValue].sort().join('')
       );
     } else {
-      // Remove the numeric value from the array
       props.setSelectedDays((prevSelectedDays) => {
         const daysArray = Array.isArray(prevSelectedDays)
           ? prevSelectedDays
@@ -101,6 +98,11 @@ const Weekdays = (props) => {
             <Typography>Sunday</Typography>
           </Grid>
         </Grid>
+          {props.selectedDays.length === 0 && (
+          <Grid item>
+            <p style={{ color: 'red' }}>*Please select at least one day.</p>
+          </Grid>
+          )}
       </Grid>
     </Grid>
   );

@@ -58,6 +58,11 @@ export default function Hours(props) {
             </React.Fragment>
           ))}
         </Grid>
+        {props.selectedHours.length === 0 && (
+          <Grid item>
+            <p style={{ color: 'red' }}>*Please select at least one day.</p>
+          </Grid>
+        )}
       </Grid>
     </Grid>
   );

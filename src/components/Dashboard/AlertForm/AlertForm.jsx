@@ -1,22 +1,18 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
-  TextField,
   Grid,
   Box,
   Typography,
   Button,
-  IconButton,
-  Tooltip,
   Paper
 } from '@mui/material';
-import AddIcon from '@mui/icons-material/Add';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import axios from 'axios'
 import AddressAutoComplete from '../../reusableComponents/AddressAutoComplete';
 import Weekdays from './Weekdays';
 import { useAuth0 } from '@auth0/auth0-react';
 import Flags from './Flags';
 import Hours from './Hours';
+import Emails from './Emails';
 
 export default function AlertForm(props) {
   const { user } = useAuth0();
@@ -24,185 +20,160 @@ export default function AlertForm(props) {
   const [location, setlocation] = useState('');
   const [selectedDays, setSelectedDays] = useState('1');
   const [selectedHours, setSelectedHours] = useState('a');
-  const [alert, setalert] = useState({
-    address: '',
-    emails: [],
-    flag: '',
-    frequency: '',
-    alertId: ''
-  });
+  const [emails, setEmails] = useState([]);
+  const [address, setAddress] = useState('');
+  const [submitError, setSubmitError] = useState(false);
+  const [editEmails, setEditEmails] = useState([]);
 
-  const handleRemoveEmail = (index, flow) => {
-    let emailArray = alert.emails;
-    emailArray.splice(index, 1)
-    setalert({
-      ...alert,
-      emails: emailArray
-    });
-  };
-
-  const handleNewEmail = () => {
-    let emailArray = alert.emails
-    emailArray.push('')
-    setalert({
-      ...alert,
-      emails: emailArray
-    });
-  };
-
-  const handleEmail = (index, e) => {
-    let emailArray = alert.emails
-    const {name, value} = e.target
-    emailArray[index] = value
-    setalert({
-      ...alert,
-      [name]: value
-    })
+  const validateEmails = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    for (let i = 0; i < emails.length; i++) {
+      if (!emailRegex.test(emails[i])) {
+        return false;
+      }
+    }
+    return true;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(props.editAlert){
-      await axios.put(`${process.env.REACT_APP_DATABASE}/alert/${props.editAlert.alert.alertId}`, alert, {headers: {"ngrok-skip-browser-warning": "69420"}})
+    const isEmailValid = validateEmails();
+    if (isEmailValid && selectedHours.length > 0 && selectedDays.length > 0) {
+      setSubmitError(false);
+      if(props.editAlert){
+        let updatedAlert = {
+          flag: selectedFlag,
+          days: selectedDays,
+          hours: selectedHours,
+          oldEmails: editEmails,
+          newEmails: emails
+        };
+        await axios.put(`${process.env.REACT_APP_DATABASE}/alert/${props.editAlert.alert.alertId}`, updatedAlert, {headers: {"ngrok-skip-browser-warning": "69420"}});
+      }
+      else{
+        console.log(location.description)
+        let refinedAddress = location.description.replace(' ', '+');
+        let latLonSearch = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${refinedAddress}&key=${process.env.REACT_APP_GOOGLE_API_KEY}`);
+        console.log(latLonSearch.data.results[0].geometry.location)
+        let trimmedLat = parseFloat(latLonSearch.data.results[0].geometry.location.lat).toFixed(2);
+        let trimmedLon = parseFloat(latLonSearch.data.results[0].geometry.location.lng).toFixed(2);
+        let newAlert = {
+          lat: trimmedLat,
+          lon: trimmedLon,
+          location: location.description,
+          flag: selectedFlag,
+          days: selectedDays,
+          hours: selectedHours,
+          alertEmail: user.email
+        };
+        let createdAlert = await axios.post(`${process.env.REACT_APP_DATABASE}/alert/`, newAlert);
+        let alertId = parseInt(createdAlert.data.alertId);
+        if(emails.length > 0 ){
+          await Promise.all(emails.map(email => axios.post(`${process.env.REACT_APP_DATABASE}/alertEmail/${alertId}`, {alertId: alertId, alertEmail: email}, {headers: {"ngrok-skip-browser-warning": "69420"}})));
+        }
+      }
+      props.setAlertForm(false);
+    } 
+    else {
+      setSubmitError(true);
     }
-    else{
-      let refinedAddress = location.description.replace(' ', '+');
-      let latLonSearch = await axios.get(`https://geocode.maps.co/search?q=${refinedAddress}`);
-      let trimmedLat = parseFloat(latLonSearch.data[0].lat).toFixed(2);
-      let trimmedLon = parseFloat(latLonSearch.data[0].lon).toFixed(2);
-      let newAlert = {
-        lat: trimmedLat,
-        lon: trimmedLon,
-        location: location.description,
-        flag: selectedFlag,
-        days: selectedDays,
-        hours: selectedHours,
-        alertEmail: user.email
-      };
-      let createdAlert = await axios.post(`${process.env.REACT_APP_DATABASE}/alert/`, newAlert);
-      let alertId = parseInt(createdAlert.data.alertId);
-      await Promise.all(alert.emails.map(email => axios.post(`${process.env.REACT_APP_DATABASE}/alertEmail/${alertId}`, {alertId: alertId, alertEmail: email}, {headers: {"ngrok-skip-browser-warning": "69420"}})));
-    }
-    props.setAlertForm(false);
   };
   const handleCancel = () => {
     props.setAlertForm(false)
-    setalert({
-      address: '',
-      emails: [''],
-      flag: selectedFlag,
-    });
+    setSelectedFlag('all');
+    setlocation('');
+    setSelectedDays('1');
+    setSelectedHours('a');
+    setEmails([]);
+    setSubmitError(false);
     props.setEditAlert(null);
   };
   useEffect(() => {
     if (props.editAlert) {
-      setalert({
-        address: props.editAlert.alert.location,
-        emails: [],
-        flag: props.editAlert.alert.flag,
-        alertId: props.editAlert.alert.alertId
-      });
+      let emailList = props.editAlert.emails.map(email => email.alertEmail)
       setSelectedFlag(props.editAlert.alert.flag);
-    } else {
-      setalert({
-        address: '',
-        emails: [''],
-        flag: selectedFlag,
-      });
+      setSelectedDays(props.editAlert.alert.days);
+      setSelectedHours(props.editAlert.alert.hours);
+      setEditEmails(props.editAlert.emails);
+      setEmails(emailList);
     };
   }, [props.editAlert]);
-  console.log(selectedDays)
+  console.log(props.editAlert)
   return (
-    <Box container="true"
+    <Box
       sx={{
         display: 'flex',
         justifyContent: 'center',
         margin: '25px',
       }}
     >
-    <Paper>
-      <form onSubmit={handleSubmit}>
-      <Grid container
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '20px',
-          rowGap: '20px'
-        }}
-      >
-        <Grid item
-          sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            rowGap: '5px'
-          }}
-        >
-          {!props.editAlert ? (
-          <Box>
-            <Typography>Create New Alert </Typography>
-            <AddressAutoComplete setlocation={setlocation} />
-          </Box>
-          ) : (
-          <Box>
-            <Typography>Edit  Alert</Typography>
-            <Typography>{props.editAlert.alert.location}</Typography>
-          </Box>
-          )}
-        </Grid>
-          <Flags selectedFlag={selectedFlag} setSelectedFlag={setSelectedFlag}/>
-          <Weekdays selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
-          <Hours selectedHours={selectedHours} setSelectedHours={setSelectedHours}/>
-          <Grid item
+      <Paper>
+        <form onSubmit={handleSubmit}>
+          <Grid
+            container
             sx={{
               display: 'flex',
               flexDirection: 'column',
-              rowGap: '5px'
+              padding: '20px',
+              rowGap: '20px'
             }}
           >
-            <Typography>Email Distribution List</Typography>
-            {alert.emails.map((flow,index) => 
-            <Grid key = {index}>
-              <TextField
-                name='ventFlow'
-                id='outlined-multiline-static'
-                label={`Email ${index+1}`}
-                value={alert.emails[index]}
-                onChange={(e)=> handleEmail(index, e)}
-                size='small'
+            <Grid
+              item
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                rowGap: '5px'
+              }}
+            >
+              {!props.editAlert ? (
+                <Box>
+                  <Typography>Create New Alert </Typography>
+                  <AddressAutoComplete setlocation={setlocation} />
+                </Box>
+              ) : (
+                <Box>
+                  <Typography>Edit Alert</Typography>
+                  <Typography>{props.editAlert.alert.location}</Typography>
+                </Box>
+              )}
+            </Grid>
+              <Flags
+                selectedFlag={selectedFlag}
+                setSelectedFlag={setSelectedFlag}
               />
-              {index === 0 ?
-              <Tooltip title="Add Measurement">
-                <IconButton onClick={handleNewEmail}>
-                  <AddIcon />
-                </IconButton>
-              </Tooltip>
-              :
-              <Tooltip title="Remove Measurement">
-                <IconButton onClick={()=> handleRemoveEmail(index, flow)}>
-                  <RemoveCircleOutlineIcon />
-                </IconButton>
-              </Tooltip>
-              }
-              </Grid>
-            )
-          }
+              <Weekdays
+                selectedDays={selectedDays}
+                setSelectedDays={setSelectedDays}
+              />
+              <Hours
+                selectedHours={selectedHours}
+                setSelectedHours={setSelectedHours}
+              />
+              <Emails emails={emails} setEmails={setEmails} editAlert={props.editAlert}/>
+              {submitError && <p style={{ color: 'red' }}>*Fix errors before submitting</p>}
+            </Grid>
+          <Grid
+            item
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center',
+              columnGap: '10px',
+              paddingBottom: '20px'
+            }}
+          >
+            <Button type="submit" variant="contained">
+              Submit
+            </Button>
+            <Button variant="contained" onClick={handleCancel}>
+              Cancel
+            </Button>
           </Grid>
-      </Grid>
-      <Grid item
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          columnGap: '10px',
-          paddingBottom: '20px'
-        }}
-      >
-        <Button type="submit" variant='contained'>Submit</Button>
-        <Button variant='contained' onClick={handleCancel}>Cancel</Button>
-      </Grid>
-      </form>
-    </Paper>
+        </form>
+      </Paper>
     </Box>
-  )
+  );
+  
 }
