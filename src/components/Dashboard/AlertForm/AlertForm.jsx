@@ -5,9 +5,6 @@ import {
   Box,
   Typography,
   Button,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
   IconButton,
   Tooltip,
   Paper
@@ -15,14 +12,18 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import axios from 'axios'
-import AddressAutoComplete from './reusableComponents/AddressAutoComplete';
+import AddressAutoComplete from '../../reusableComponents/AddressAutoComplete';
+import Weekdays from './Weekdays';
 import { useAuth0 } from '@auth0/auth0-react';
+import Flags from './Flags';
+import Hours from './Hours';
 
 export default function AlertForm(props) {
   const { user } = useAuth0();
-  const [radio, setRadio] = useState('all');
+  const [selectedFlag, setSelectedFlag] = useState('all');
   const [location, setlocation] = useState('');
-  const [frequency, setfrequency] = useState('hourly');
+  const [selectedDays, setSelectedDays] = useState('1');
+  const [selectedHours, setSelectedHours] = useState('a');
   const [alert, setalert] = useState({
     address: '',
     emails: [],
@@ -30,30 +31,6 @@ export default function AlertForm(props) {
     frequency: '',
     alertId: ''
   });
-
-  const handleChange = (e) => {
-    const {name, value} = e.target
-    if(name === 'flag'){
-      setRadio(e.target.value)
-      setalert({
-        ...alert,
-        [name]: value
-      })
-    }
-    else if(name === 'frequency'){
-      setfrequency(e.target.value)
-      setalert({
-        ...alert,
-        [name]: value
-      })
-    }
-    else{
-      setalert({
-        ...alert,
-        [name]: value
-      })
-    }
-  };
 
   const handleRemoveEmail = (index, flow) => {
     let emailArray = alert.emails;
@@ -97,8 +74,9 @@ export default function AlertForm(props) {
         lat: trimmedLat,
         lon: trimmedLon,
         location: location.description,
-        flagCondition: alert.flag,
-        frequency: alert.frequency,
+        flag: selectedFlag,
+        days: selectedDays,
+        hours: selectedHours,
         alertEmail: user.email
       };
       let createdAlert = await axios.post(`${process.env.REACT_APP_DATABASE}/alert/`, newAlert);
@@ -112,8 +90,7 @@ export default function AlertForm(props) {
     setalert({
       address: '',
       emails: [''],
-      flag: radio,
-      frequency: frequency
+      flag: selectedFlag,
     });
     props.setEditAlert(null);
   };
@@ -122,22 +99,19 @@ export default function AlertForm(props) {
       setalert({
         address: props.editAlert.alert.location,
         emails: [],
-        flag: props.editAlert.alert.flagCondition,
-        frequency: props.editAlert.alert.frequency,
+        flag: props.editAlert.alert.flag,
         alertId: props.editAlert.alert.alertId
       });
-      setRadio(props.editAlert.alert.flagCondition);
-      setfrequency(props.editAlert.alert.frequency)
+      setSelectedFlag(props.editAlert.alert.flag);
     } else {
       setalert({
         address: '',
         emails: [''],
-        flag: radio,
-        frequency: frequency
+        flag: selectedFlag,
       });
     };
   }, [props.editAlert]);
-  console.log(alert)
+  console.log(selectedDays)
   return (
     <Box container="true"
       sx={{
@@ -175,26 +149,10 @@ export default function AlertForm(props) {
             <Typography>{props.editAlert.alert.location}</Typography>
           </Box>
           )}
-
         </Grid>
-          <Grid item>
-            <Typography>Choose Flag Condition for Alerts</Typography>
-              <RadioGroup aria-label="Flag" name="flag" value={radio} onChange={handleChange}>
-                <FormControlLabel value="all" control={<Radio />} label="All Temps" />
-                <FormControlLabel value="green" control={<Radio />} label="Green Flag and higher (<82 degrees F)" />
-                <FormControlLabel value="yellow" control={<Radio />} label="Yellow Flag and higher (<85 degrees F)" />
-                <FormControlLabel value="red" control={<Radio />} label="Red Flag and higher (<88 degrees F)" />
-                <FormControlLabel value="black" control={<Radio />} label="Black Flag and higher (<90 degrees F)" />
-              </RadioGroup>
-          </Grid>
-          <Grid item>
-            <Typography>Choose Alert Frequency</Typography>
-            <RadioGroup aria-label="Flag" name="frequency" value={frequency} onChange={handleChange}>
-              <FormControlLabel value="hourly" control={<Radio />} label="Hourly" />
-              <FormControlLabel value="2hours" control={<Radio />} label="Every 2 hours" />
-              <FormControlLabel value="4hours" control={<Radio />} label="Every 4 hours" />
-            </RadioGroup>
-          </Grid>
+          <Flags selectedFlag={selectedFlag} setSelectedFlag={setSelectedFlag}/>
+          <Weekdays selectedDays={selectedDays} setSelectedDays={setSelectedDays}/>
+          <Hours selectedHours={selectedHours} setSelectedHours={setSelectedHours}/>
           <Grid item
             sx={{
               display: 'flex',
