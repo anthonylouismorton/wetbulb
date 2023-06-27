@@ -18,13 +18,13 @@ export default function AlertForm(props) {
   const [selectedFlag, setSelectedFlag] = useState('all');
   const [location, setlocation] = useState('');
   const [selectedDays, setSelectedDays] = useState({
-    "monday": true,
-    "tuesday": true,
-    "wednesday": true,
-    "thursday": true,
-    "friday": true,
-    "saturday": false,
-    "sunday": false,
+    1: true,
+    2: true,
+    3: true,
+    4: true,
+    5: true,
+    6: false,
+    7: false,
   });
   
   const [selectedHours, setSelectedHours] = useState(["hour7","hour8","hour9","hour10","hour11","hour12","hour13","hour14","hour15","hour16","hour17"]);
@@ -32,7 +32,7 @@ export default function AlertForm(props) {
   const [address, setAddress] = useState('');
   const [submitError, setSubmitError] = useState(false);
   const [editEmails, setEditEmails] = useState([]);
-
+  const [timeZoneId, setTimeZoneId] = useState('America/Los_Angeles')
   const validateEmails = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     for (let i = 0; i < emails.length; i++) {
@@ -54,7 +54,8 @@ export default function AlertForm(props) {
           days: selectedDays,
           hours: selectedHours,
           oldEmails: editEmails,
-          newEmails: emails
+          newEmails: emails,
+          timeZoneId: timeZoneId
         };
         await axios.put(`${process.env.REACT_APP_DATABASE}/alert/${props.editAlert.alert.alertId}`, updatedAlert, {headers: {"ngrok-skip-browser-warning": "69420"}});
       }
@@ -67,7 +68,7 @@ export default function AlertForm(props) {
           `https://maps.googleapis.com/maps/api/timezone/json?location=${trimmedLat},${trimmedLon}&timestamp=${Math.floor(Date.now() / 1000)}&key=${process.env.REACT_APP_GOOGLE_API_KEY}`
         );
         
-        const timeZoneId = timezoneSearch.data.timeZoneId;
+        setTimeZoneId(timezoneSearch.data.timeZoneId);
         console.log(timeZoneId)
         let newAlert = {
           lat: trimmedLat,
@@ -95,7 +96,15 @@ export default function AlertForm(props) {
     props.setAlertForm(false)
     setSelectedFlag('all');
     setlocation('');
-    setSelectedDays('1');
+    setSelectedDays({
+      1: true,
+      2: true,
+      3: true,
+      4: true,
+      5: true,
+      6: false,
+      7: false,
+   });
     setSelectedHours(["hour7","hour8","hour9","hour10","hour11","hour12","hour13","hour14","hour15","hour16","hour17"]);
     setEmails([]);
     setSubmitError(false);
@@ -103,22 +112,20 @@ export default function AlertForm(props) {
   };
   useEffect(() => {
     if (props.editAlert) {
-      console.log('in the if')
-      console.log(props.editAlert.alert.hour)
       let emailList = props.editAlert.emails.map(email => email.alertEmail)
       setSelectedFlag(props.editAlert.alert.flag);
       setSelectedDays({
-        "monday": props.editAlert.alert.monday,
-        "tuesday": props.editAlert.alert.tuesday,
-        "wednesday": props.editAlert.alert.wednesday,
-        "thursday": props.editAlert.alert.thursday,
-        "friday": props.editAlert.alert.friday,
-        "saturday": props.editAlert.alert.saturday,
-        "sunday": props.editAlert.alert.sunday,
+        1: props.editAlert.alert.monday,
+        2: props.editAlert.alert.tuesday,
+        3: props.editAlert.alert.wednesday,
+        4: props.editAlert.alert.thursday,
+        5: props.editAlert.alert.friday,
+        6: props.editAlert.alert.saturday,
+        7: props.editAlert.alert.sunday,
     });
     const setSelectedHours = (hours) => {
       const selectedHours = Object.keys(props.editAlert.alert.hour)
-        .filter((key) => key.startsWith('hour')) // Filter out unwanted keys
+        .filter((key) => key.startsWith('hour'))
         .reduce((result, key) => {
           result[key] = hours[key];
           return result;
@@ -132,7 +139,7 @@ export default function AlertForm(props) {
       setEmails(emailList);
     };
   }, [props.editAlert]);
-  console.log(selectedHours)
+  console.log(timeZoneId);
   return (
     <Box
       sx={{
