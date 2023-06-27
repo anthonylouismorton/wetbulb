@@ -1,39 +1,27 @@
 import React, { useState } from 'react';
-import { Grid, Typography, Checkbox } from '@mui/material';
+import { Grid, Typography, Checkbox, FormControlLabel } from '@mui/material';
 
 export default function Hours(props) {
   const { selectedHours, setSelectedHours } = props;
 
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
-    const hour = convertToLetter(Number(name));
-    let updatedSelectedHours = selectedHours;
-  
-    if (checked) {
-      updatedSelectedHours += hour;
-    } else {
-      updatedSelectedHours = updatedSelectedHours.replace(hour, '');
-    }
-  
-    // Sort the updatedSelectedHours in alphabetical order
-    updatedSelectedHours = updatedSelectedHours
-      .split('')
-      .sort()
-      .join('');
-  
-    setSelectedHours(updatedSelectedHours);
-  };
-  
+    const hour = `hour${name}`; // Add the "hour" prefix
+    let updatedSelectedHours = [...selectedHours];
 
-  const convertToLetter = (hour) => {
-    const alphabet = 'abcdefghijklmnopqrstuvwxyz';
-    return alphabet[hour % 24];
+    if (checked) {
+      updatedSelectedHours.push(hour);
+    } else {
+      updatedSelectedHours = updatedSelectedHours.filter((h) => h !== hour);
+    }
+
+    setSelectedHours(updatedSelectedHours);
   };
 
   const formatTime = (hour) => {
     const formattedHour = hour % 12 || 12;
     const period = hour < 12 ? 'AM' : 'PM';
-    return `${formattedHour} ${period}`;
+    return `${formattedHour} ${period}`; // Return hour and period (AM/PM)
   };
 
   return (
@@ -46,23 +34,20 @@ export default function Hours(props) {
           {[...Array(24)].map((_, hour) => (
             <React.Fragment key={hour}>
               <Grid item>
-                <Checkbox
-                  name={String(hour)}
-                  checked={selectedHours.includes(convertToLetter(hour))}
-                  onChange={handleCheckboxChange}
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      name={String(hour)}
+                      checked={selectedHours.includes(`hour${hour}`)}
+                      onChange={handleCheckboxChange}
+                    />
+                  }
+                  label={formatTime(hour)}
                 />
-              </Grid>
-              <Grid item>
-                <Typography>{formatTime(hour)}</Typography>
               </Grid>
             </React.Fragment>
           ))}
         </Grid>
-        {props.selectedHours.length === 0 && (
-          <Grid item>
-            <p style={{ color: 'red' }}>*Please select at least one day.</p>
-          </Grid>
-        )}
       </Grid>
     </Grid>
   );

@@ -28,7 +28,7 @@ export default function AlertList(props) {
   const getAlerts = async () => {
     if (props.user) {
       const userAlerts = await axios.get(`${process.env.REACT_APP_DATABASE}/alerts/${props.user.email}`, { headers: { "ngrok-skip-browser-warning": "69420" } });
-      const userEmails = await axios.get(`${process.env.REACT_APP_DATABASE}/alerts/${props.user.email}`, { headers: { "ngrok-skip-browser-warning": "69420" } });
+      // const userEmails = await axios.get(`${process.env.REACT_APP_DATABASE}/alerts/${props.user.email}`, { headers: { "ngrok-skip-browser-warning": "69420" } });
       setAlerts(userAlerts.data);
     }
   };
