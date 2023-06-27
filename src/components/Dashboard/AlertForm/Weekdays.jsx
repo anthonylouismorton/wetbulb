@@ -1,23 +1,16 @@
 import React, { useState } from 'react';
-import { Grid, Typography, Checkbox } from '@mui/material';
+import { Grid, Typography, Checkbox, FormControlLabel } from '@mui/material';
 
 const Weekdays = (props) => {
   const handleCheckboxChange = (event) => {
     const { name, checked } = event.target;
     const numericValue = parseInt(name);
 
-    if (checked) {
-      props.setSelectedDays((prevSelectedDays) =>
-        [...prevSelectedDays, numericValue].sort().join('')
-      );
-    } else {
-      props.setSelectedDays((prevSelectedDays) => {
-        const daysArray = Array.isArray(prevSelectedDays)
-          ? prevSelectedDays
-          : Array.from(prevSelectedDays.toString()).map(Number);
-        return daysArray.filter((day) => day !== numericValue).join('');
-      });
-    }
+    props.setSelectedDays((prevSelectedDays) => {
+      const updatedSelectedDays = { ...prevSelectedDays };
+      updatedSelectedDays[numericValue] = checked;
+      return updatedSelectedDays;
+    });
   };
 
   return (
@@ -25,84 +18,96 @@ const Weekdays = (props) => {
       <Grid item xs={12}>
         <Typography variant="h6">Weekdays</Typography>
       </Grid>
-      <Grid item xs={12}>
-        <Grid container spacing={2}>
+      <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center' }}>
+        <Grid container spacing={2} alignItems="center" justifyContent="center">
           <Grid item>
-            <Checkbox
-              name="1"
-              checked={props.selectedDays.includes('1')}
-              onChange={handleCheckboxChange}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="1"
+                  checked={props.selectedDays[1]}
+                  onChange={handleCheckboxChange}
+                />
+              }
+              label="Monday"
             />
           </Grid>
           <Grid item>
-            <Typography>Monday</Typography>
-          </Grid>
-          <Grid item>
-            <Checkbox
-              name="2"
-              checked={props.selectedDays.includes('2')}
-              onChange={handleCheckboxChange}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="2"
+                  checked={props.selectedDays[2]}
+                  onChange={handleCheckboxChange}
+                />
+              }
+              label="Tuesday"
             />
           </Grid>
           <Grid item>
-            <Typography>Tuesday</Typography>
-          </Grid>
-          <Grid item>
-            <Checkbox
-              name="3"
-              checked={props.selectedDays.includes('3')}
-              onChange={handleCheckboxChange}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="3"
+                  checked={props.selectedDays[3]}
+                  onChange={handleCheckboxChange}
+                />
+              }
+              label="Wednesday"
             />
           </Grid>
           <Grid item>
-            <Typography>Wednesday</Typography>
-          </Grid>
-          <Grid item>
-            <Checkbox
-              name="4"
-              checked={props.selectedDays.includes('4')}
-              onChange={handleCheckboxChange}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="4"
+                  checked={props.selectedDays[4]}
+                  onChange={handleCheckboxChange}
+                />
+              }
+              label="Thursday"
             />
           </Grid>
           <Grid item>
-            <Typography>Thursday</Typography>
-          </Grid>
-          <Grid item>
-            <Checkbox
-              name="5"
-              checked={props.selectedDays.includes('5')}
-              onChange={handleCheckboxChange}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="5"
+                  checked={props.selectedDays[5]}
+                  onChange={handleCheckboxChange}
+                />
+              }
+              label="Friday"
             />
           </Grid>
           <Grid item>
-            <Typography>Friday</Typography>
-          </Grid>
-          <Grid item>
-            <Checkbox
-              name="6"
-              checked={props.selectedDays.includes('6')}
-              onChange={handleCheckboxChange}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="6"
+                  checked={props.selectedDays[6]}
+                  onChange={handleCheckboxChange}
+                />
+              }
+              label="Saturday"
             />
           </Grid>
           <Grid item>
-            <Typography>Saturday</Typography>
-          </Grid>
-          <Grid item>
-            <Checkbox
-              name="7"
-              checked={props.selectedDays.includes('7')}
-              onChange={handleCheckboxChange}
+            <FormControlLabel
+              control={
+                <Checkbox
+                  name="7"
+                  checked={props.selectedDays[7]}
+                  onChange={handleCheckboxChange}
+                />
+              }
+              label="Sunday"
             />
-          </Grid>
-          <Grid item>
-            <Typography>Sunday</Typography>
           </Grid>
         </Grid>
-          {props.selectedDays.length === 0 && (
-          <Grid item>
-            <p style={{ color: 'red' }}>*Please select at least one day.</p>
-          </Grid>
-          )}
+        {Object.values(props.selectedDays).every((day) => !day) && (
+          <p style={{ color: 'red', marginLeft: '10px' }}>*Please select at least one day.</p>
+        )}
       </Grid>
     </Grid>
   );
