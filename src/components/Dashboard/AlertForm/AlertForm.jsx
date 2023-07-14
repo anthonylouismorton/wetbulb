@@ -26,10 +26,8 @@ export default function AlertForm(props) {
     6: false,
     7: false,
   });
-  
   const [selectedHours, setSelectedHours] = useState(["hour7","hour8","hour9","hour10","hour11","hour12","hour13","hour14","hour15","hour16","hour17"]);
   const [emails, setEmails] = useState([]);
-  const [address, setAddress] = useState('');
   const [submitError, setSubmitError] = useState(false);
   const [editEmails, setEditEmails] = useState([]);
   const [timeZoneId, setTimeZoneId] = useState('America/Los_Angeles')
@@ -57,6 +55,7 @@ export default function AlertForm(props) {
           newEmails: emails,
           timeZoneId: timeZoneId
         };
+        console.log(updatedAlert)
         await axios.put(`${process.env.REACT_APP_DATABASE}/alert/${props.editAlert.alert.alertId}`, updatedAlert, {headers: {"ngrok-skip-browser-warning": "69420"}});
       }
       else{
@@ -69,7 +68,6 @@ export default function AlertForm(props) {
         );
         
         setTimeZoneId(timezoneSearch.data.timeZoneId);
-        console.log(timeZoneId)
         let newAlert = {
           lat: trimmedLat,
           lon: trimmedLon,
@@ -115,31 +113,30 @@ export default function AlertForm(props) {
       let emailList = props.editAlert.emails.map(email => email.alertEmail)
       setSelectedFlag(props.editAlert.alert.flag);
       setSelectedDays({
-        1: props.editAlert.alert.monday,
-        2: props.editAlert.alert.tuesday,
-        3: props.editAlert.alert.wednesday,
-        4: props.editAlert.alert.thursday,
-        5: props.editAlert.alert.friday,
-        6: props.editAlert.alert.saturday,
-        7: props.editAlert.alert.sunday,
-    });
-    const setSelectedHours = (hours) => {
-      const selectedHours = Object.keys(props.editAlert.alert.hour)
-        .filter((key) => key.startsWith('hour'))
-        .reduce((result, key) => {
-          result[key] = hours[key];
-          return result;
-        }, {});
+        1: props.editAlert.alert.day.monday,
+        2: props.editAlert.alert.day.tuesday,
+        3: props.editAlert.alert.day.wednesday,
+        4: props.editAlert.alert.day.thursday,
+        5: props.editAlert.alert.day.friday,
+        6: props.editAlert.alert.day.saturday,
+        7: props.editAlert.alert.day.sunday,
+      });
+
+      const filterHours = Object.keys(props.editAlert.alert.hour)
+      .filter((key) => key.startsWith('hour') && key !== 'hourId')
+      .reduce((result, key) => {
+        if (props.editAlert.alert.hour[key]) {
+          result.push(key);
+        }
+        return result;
+      }, []);
     
-      // Set the selectedHours state
-      setSelectedHours(selectedHours);
-    };
-    
+      setSelectedHours(filterHours);
       setEditEmails(props.editAlert.emails);
       setEmails(emailList);
     };
   }, [props.editAlert]);
-  console.log(timeZoneId);
+  console.log(selectedHours);
   return (
     <Box
       sx={{
