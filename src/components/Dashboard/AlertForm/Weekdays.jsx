@@ -104,10 +104,12 @@ const Weekdays = (props) => {
               label="Sunday"
             />
           </Grid>
+          <Grid item>
+          {Object.values(props.selectedDays).every((day) => !day) && (
+          <p style={{ color: 'red', alignItems: 'center' }}>*Please select at least one day.</p>
+          )}
+          </Grid>
         </Grid>
-        {Object.values(props.selectedDays).every((day) => !day) && (
-          <p style={{ color: 'red', marginLeft: '10px' }}>*Please select at least one day.</p>
-        )}
       </Grid>
     </Grid>
   );
