@@ -3,7 +3,7 @@ import AlertForm from "./AlertForm/AlertForm";
 import AlertHistory from "./AlertHistory";
 import AlertList from './AlertList';
 import AlertFullInfo from './AlertFullInfo';
-import { Modal, Box, Grid } from '@mui/material';
+import { Modal, Grid } from '@mui/material';
 
 export default function Dashboard(props) {
   const [alertForm, setAlertForm] = useState(false);

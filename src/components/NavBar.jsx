@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -14,8 +14,6 @@ import MenuItem from '@mui/material/MenuItem';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Link } from 'react-router-dom';
-import { LoginButton } from './LoginButton';
-const settings = ['Login','Logout'];
 
 export default function NavBar(props){
   const [anchorElNav, setAnchorElNav] = useState(null);
@@ -50,7 +48,7 @@ export default function NavBar(props){
   }
   return (
     <AppBar position="static" sx={{ height: '60px' }}>
-      <Container maxWidth="xl">
+      <Container maxWidth="xxxl">
         <Toolbar disableGutters>
           {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
           {/* <Typography

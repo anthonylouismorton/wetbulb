@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Grid, Typography, Radio, RadioGroup, FormControlLabel } from '@mui/material';
 
 export default function Flags(props) {
@@ -8,7 +8,7 @@ export default function Flags(props) {
   return (
     <Grid container alignItems="center">
       <Grid item xs={12}>
-        <Typography variant="h6">Choose Flag Condition for Alerts</Typography>
+        <Typography variant="h6">Flag Condition</Typography>
       </Grid>
       <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
         <RadioGroup
@@ -16,9 +16,9 @@ export default function Flags(props) {
           name="flag"
           value={props.selectedFlag}
           onChange={handleChange}
-          sx={{ display: 'flex', flexDirection: 'row' }}
+          sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}
         >
-          <FormControlLabel value="all" control={<Radio />} label="All Temps" />
+          <FormControlLabel value="all" control={<Radio />} label="All Temperatures" />
           <FormControlLabel value="green" control={<Radio />} label="Green (<82 degrees F)" />
           <FormControlLabel value="yellow" control={<Radio />} label="Yellow (<85 degrees F)" />
           <FormControlLabel value="red" control={<Radio />} label="Red (<88 degrees F)" />

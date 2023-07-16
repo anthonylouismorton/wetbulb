@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Box,
   Button,
   Typography,
   Grid
@@ -35,7 +34,7 @@ export default function QuickSearch() {
       time: ''
     }
   }
-  const [coords, setcoords] = useState({});
+  // const [coords, setcoords] = useState({});
   const [information, setInformation] = useState(defaultInformation);
   const server = process.env.REACT_APP_DATABASE
   const handleSubmit = async (e) => {
@@ -48,10 +47,10 @@ export default function QuickSearch() {
 
     try{
       let wbgtData = await axios.get(`${server}/quickSearch?lat=${trimmedLat}&lon=${trimmedLon}`, {headers: {"ngrok-skip-browser-warning": "69420"}})
-      setcoords({
-        lat: trimmedLat,
-        lon: trimmedLon
-      })
+      // setcoords({
+      //   lat: trimmedLat,
+      //   lon: trimmedLon
+      // })
       console.log(wbgtData.data)
       setInformation(wbgtData.data)
       setShowResults(true);
