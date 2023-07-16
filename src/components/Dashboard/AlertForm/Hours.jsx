@@ -21,7 +21,7 @@ export default function Hours(props) {
   const formatTime = (hour) => {
     const formattedHour = hour % 12 || 12;
     const period = hour < 12 ? 'AM' : 'PM';
-    return `${formattedHour} ${period}`; // Return hour and period (AM/PM)
+    return `${formattedHour} ${period}`;
   };
 
   return (

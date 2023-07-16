@@ -78,10 +78,12 @@ export default function AlertForm(props) {
           alertEmail: user.email,
           timeZoneId: timeZoneId
         };
-        let createdAlert = await axios.post(`${process.env.REACT_APP_DATABASE}/alert/`, newAlert);
+        let createdAlert = await axios.post(`${process.env.REACT_APP_DATABASE}/alert/`,newAlert);
+        console.log(createdAlert)
         let alertId = parseInt(createdAlert.data.alertId);
         if(emails.length > 0 ){
-          await Promise.all(emails.map(email => axios.post(`${process.env.REACT_APP_DATABASE}/alertEmail/${alertId}`, {alertId: alertId, alertEmail: email}, {headers: {"ngrok-skip-browser-warning": "69420"}})));
+          const createEmail = await Promise.all(emails.map(email => axios.post(`${process.env.REACT_APP_DATABASE}/alertEmail/${alertId}`, {alertId: alertId, alertEmail: email}, {headers: {"ngrok-skip-browser-warning": "69420"}})));
+          console.log(createEmail)
         }
       }
       props.setAlertForm(false);
@@ -136,7 +138,7 @@ export default function AlertForm(props) {
       setEmails(emailList);
     };
   }, [props.editAlert]);
-  console.log(selectedHours);
+  console.log(emails);
   return (
     <Box
       sx={{
