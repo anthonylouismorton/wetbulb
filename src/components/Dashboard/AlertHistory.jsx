@@ -24,18 +24,6 @@ export default function AlertHistory(props) {
       const dbAlerts = await axios.get(`${process.env.REACT_APP_DATABASE}/userwbgts/${props.user?.name}`, { headers: { "ngrok-skip-browser-warning": "69420" } });
       const getWbgts = dbAlerts.data;
       const wbgtList = getWbgts.map((wbgt) => {
-        // let flag = '';
-        // if (wbgt.directWBGT < 82) {
-        //   flag = 'none';
-        // } else if (wbgt.directWBGT < 85) {
-        //   flag = 'Green';
-        // } else if (wbgt.directWBGT < 88) {
-        //   flag = 'Yellow';
-        // } else if (wbgt.directWBGT < 90) {
-        //   flag = 'Red';
-        // } else if (wbgt.directWBGT > 90) {
-        //   flag = 'Black';
-        // }
         return {
           ...wbgt,
           location: wbgt.alert.location,
@@ -56,7 +44,6 @@ export default function AlertHistory(props) {
       }
     });
     socket.on('message', (message) => {
-      // Handle the received message in your React component
       console.log(message)
     });
     if(props.user){
@@ -73,13 +60,11 @@ export default function AlertHistory(props) {
       })
     }
 
-    // Clean up the Socket.IO connection on unmount
     return () => {
       socket.disconnect();
     };
   }, [props.user]);
   
-  console.log(wbgts)
   return (
     <Grid
       item
@@ -101,11 +86,9 @@ export default function AlertHistory(props) {
       >
         <DataGrid
           sx={{
-            // disable cell selection style
             '.MuiDataGrid-cell:focus': {
               outline: 'none'
             },
-            // pointer cursor on ALL rows
             '& .MuiDataGrid-row:hover': {
               cursor: 'pointer'
             }

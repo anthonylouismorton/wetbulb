@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Grid, Typography, Checkbox, FormControlLabel } from '@mui/material';
 
 export default function Hours(props) {
@@ -28,9 +28,12 @@ export default function Hours(props) {
     <Grid container spacing={2} alignItems="center">
       <Grid item xs={12}>
         <Typography variant="h6">Hours</Typography>
+        {Object.values(props.selectedHours).every((hour) => !hour) && (
+            <p style={{ color: 'red', alignItems: 'center' }}>*Please select at least one hour.</p>
+        )}
       </Grid>
-      <Grid item xs={12}>
-        <Grid container spacing={2}>
+      <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center' }}>
+        <Grid container spacing={2} alignItems="center" justifyContent="center">
           {[...Array(24)].map((_, hour) => (
             <React.Fragment key={hour}>
               <Grid item>

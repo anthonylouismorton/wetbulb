@@ -44,7 +44,7 @@ export default function AlertForm(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const isEmailValid = validateEmails();
-    if (isEmailValid && Object.values(selectedDays).includes(true) > 0 && selectedHours.length > 0) {
+    if (isEmailValid && Object.values(selectedDays).includes(true) > 0 && selectedHours.length > 0 && location) {
       setSubmitError(false);
       if(props.editAlert){
         let updatedAlert = {
@@ -79,7 +79,6 @@ export default function AlertForm(props) {
           timeZoneId: timeZoneId
         };
         let createdAlert = await axios.post(`${process.env.REACT_APP_DATABASE}/alert/`,newAlert);
-        console.log(createdAlert)
         let alertId = parseInt(createdAlert.data.alertId);
         if(emails.length > 0 ){
           const createEmail = await Promise.all(emails.map(email => axios.post(`${process.env.REACT_APP_DATABASE}/alertEmail/${alertId}`, {alertId: alertId, alertEmail: email}, {headers: {"ngrok-skip-browser-warning": "69420"}})));
@@ -144,6 +143,8 @@ export default function AlertForm(props) {
       sx={{
         display: 'flex',
         justifyContent: 'center',
+        marginRight: '20px',
+        marginLeft: '20px'
       }}
     >
       <form onSubmit={handleSubmit}>
@@ -153,7 +154,7 @@ export default function AlertForm(props) {
             display: 'flex',
             flexDirection: 'column',
             padding: '20px',
-            rowGap: '20px'
+            rowGap: '40px'
           }}
         >
           <Grid
@@ -163,16 +164,20 @@ export default function AlertForm(props) {
               flexDirection: 'column',
               alignItems: 'center',
               textAlign: 'center',
+              marginTop: '15px'
             }}
           >
             {!props.editAlert ? (
-              <Box>
-                <Typography variant='h5'>Create New Alert </Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                <Typography variant='h4'>Create New Alert </Typography>
+                {!location && submitError && (
+                <p style={{ color: 'red' }}>*You must select a location.</p>
+                )}
                 <AddressAutoComplete setlocation={setlocation} />
               </Box>
             ) : (
-              <Box>
-                <Typography variant='h5'>Edit Alert</Typography>
+              <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                <Typography variant='h4'>Edit Alert</Typography>
                 <Typography variant='h5'>{props.editAlert.alert.location}</Typography>
               </Box>
             )}
@@ -184,7 +189,8 @@ export default function AlertForm(props) {
               flexDirection: 'column',
               alignItems: 'center',
               textAlign: 'center',
-              rowGap: '5px'
+              rowGap: '5px',
+              marginTop: '10px'
             }}
           >
             <Flags

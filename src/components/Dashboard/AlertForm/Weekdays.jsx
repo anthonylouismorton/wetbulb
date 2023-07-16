@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Grid, Typography, Checkbox, FormControlLabel } from '@mui/material';
+import React from 'react';
+import { Grid, Typography, Checkbox, FormControlLabel, Paper } from '@mui/material';
 
 const Weekdays = (props) => {
   const handleCheckboxChange = (event) => {
@@ -12,14 +12,17 @@ const Weekdays = (props) => {
       return updatedSelectedDays;
     });
   };
-
+  
   return (
-    <Grid container spacing={2} alignItems="center">
+    <Grid container alignItems="center">
       <Grid item xs={12}>
         <Typography variant="h6">Weekdays</Typography>
+        {Object.values(props.selectedDays).every((day) => !day) && (
+        <p style={{ color: 'red', alignItems: 'center' }}>*Please select at least one day.</p>
+        )}
       </Grid>
       <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center' }}>
-        <Grid container spacing={2} alignItems="center" justifyContent="center">
+        <Grid container spacing={1} alignItems="center" justifyContent="center">
           <Grid item>
             <FormControlLabel
               control={
@@ -105,9 +108,6 @@ const Weekdays = (props) => {
             />
           </Grid>
           <Grid item>
-          {Object.values(props.selectedDays).every((day) => !day) && (
-          <p style={{ color: 'red', alignItems: 'center' }}>*Please select at least one day.</p>
-          )}
           </Grid>
         </Grid>
       </Grid>
