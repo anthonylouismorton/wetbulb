@@ -40,10 +40,11 @@ export default function QuickSearch() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true);
-    let refinedAddress = location.description.replace(' ', '+')
-    let latLonSearch = await axios.get(`https://geocode.maps.co/search?q=${refinedAddress}`)
-    let trimmedLat = parseFloat(latLonSearch.data[0].lat).toFixed(2)
-    let trimmedLon = parseFloat(latLonSearch.data[0].lon).toFixed(2)
+    const refinedAddress = location.description.replace(/ /g, "+");
+    console.log(location.place_id);
+    const latLonSearch = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?place_id=${location.place_id}&key=${process.env.REACT_APP_GOOGLE_API_KEY}`)
+    let trimmedLat = parseFloat(latLonSearch.data.results[0].geometry.location.lat).toFixed(2)
+    let trimmedLon = parseFloat(latLonSearch.data.results[0].geometry.location.lng).toFixed(2)
 
     try{
       let wbgtData = await axios.get(`${server}/quickSearch?lat=${trimmedLat}&lon=${trimmedLon}`, {headers: {"ngrok-skip-browser-warning": "69420"}})
