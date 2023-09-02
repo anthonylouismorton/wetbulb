@@ -69,24 +69,28 @@ export default function QuickSearch() {
     >
       <Grid item>
         <form onSubmit={handleSubmit}>
-          <Grid
-            item
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              marginTop: '10px',
-              flexDirection: 'column',
-              rowGap: '10px'
-            }}
-            >
-            <Typography variant="h4" sx={{ margin: '50px 0', fontWeight: 'bold' }}>
-              WBGT Estimate Calculator
-            </Typography>
+        <Grid
+          item
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: '10px',
+            flexDirection: 'column',
+            rowGap: '10px'
+          }}
+        >
+          <Typography variant="h4" sx={{ marginTop: '50px', fontWeight: 'bold' }}>
+            WBGT Estimate Calculator
+          </Typography>
+          <Typography variant="h7" sx={{ marginBottom: '50px', color: 'red' }}>
+            This tool is currently limited to the Northwest Hemisphere
+          </Typography>
 
-            <AddressAutoComplete setlocation={setlocation}/>
-            <Button type="submit" variant='contained'>Calculate</Button>
-          </Grid>
+          <AddressAutoComplete setlocation={setlocation}/>
+          <Button type="submit" variant='contained'>Calculate</Button>
+        </Grid>
+
         </form>
         <Grid
           container
