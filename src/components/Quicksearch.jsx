@@ -41,20 +41,17 @@ export default function QuickSearch() {
     e.preventDefault()
     setIsLoading(true);
     const refinedAddress = location.description.replace(/ /g, "+");
-    console.log(location.place_id);
     const latLonSearch = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?place_id=${location.place_id}&key=${process.env.REACT_APP_GOOGLE_API_KEY}`)
-    console.log(latLonSearch)
     let trimmedLat = parseFloat(latLonSearch.data.results[0].geometry.location.lat).toFixed(2)
     let trimmedLon = parseFloat(latLonSearch.data.results[0].geometry.location.lng).toFixed(2)
 
     try{
       let wbgtData = await axios.get(`${server}/quickSearch?lat=${trimmedLat}&lon=${trimmedLon}`, {headers: {"ngrok-skip-browser-warning": "69420"}})
-      console.log(wbgtData.data)
       setInformation(wbgtData.data)
       setShowResults(true);
     }
     catch(e){
-      console.log(e)
+      return e
     }
     setIsLoading(false);
   }
