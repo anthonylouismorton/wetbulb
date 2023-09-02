@@ -55,7 +55,6 @@ export default function AlertForm(props) {
           newEmails: emails,
           timeZoneId: timeZoneId
         };
-        console.log(updatedAlert)
         await axios.put(`${process.env.REACT_APP_DATABASE}/alert/${props.editAlert.alert.alertId}`, updatedAlert, {headers: {"ngrok-skip-browser-warning": "69420"}});
       }
       else{
@@ -82,7 +81,6 @@ export default function AlertForm(props) {
         let alertId = parseInt(createdAlert.data.alertId);
         if(emails.length > 0 ){
           const createEmail = await Promise.all(emails.map(email => axios.post(`${process.env.REACT_APP_DATABASE}/alertEmail/${alertId}`, {alertId: alertId, alertEmail: email}, {headers: {"ngrok-skip-browser-warning": "69420"}})));
-          console.log(createEmail)
         }
       }
       props.setAlertForm(false);
@@ -137,7 +135,7 @@ export default function AlertForm(props) {
       setEmails(emailList);
     };
   }, [props.editAlert]);
-  console.log(emails);
+
   return (
     <Box
       sx={{
@@ -169,7 +167,10 @@ export default function AlertForm(props) {
           >
             {!props.editAlert ? (
               <Box sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-                <Typography variant='h4'>Create New Alert </Typography>
+                <Typography variant='h4'> Create Ne Alert </Typography>
+                <Typography variant="h7" sx={{ color: 'red' }}>
+                  This tool is currently limited to the Northwest Hemisphere
+                </Typography>
                 {!location && submitError && (
                 <p style={{ color: 'red' }}>*You must select a location.</p>
                 )}

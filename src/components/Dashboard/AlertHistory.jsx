@@ -32,7 +32,7 @@ export default function AlertHistory(props) {
       });
       setwbgts(wbgtList);
     } catch (e) {
-      console.log(e);
+      return e
     }
   };
 
@@ -44,11 +44,10 @@ export default function AlertHistory(props) {
       }
     });
     socket.on('message', (message) => {
-      console.log(message)
+      // console.log(message)
     });
     if(props.user){
       socket.on(`${props.user.name}Wbgt`, (wbgt) => {
-        console.log(wbgt)
         setwbgts(prevWbgts => [...prevWbgts,
           {id: wbgt.createdWbgt.wbgtId,
             ...wbgt.createdWbgt, 

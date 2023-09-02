@@ -54,7 +54,6 @@ export default function AlertList(props) {
   useEffect(() => {
     getAlerts();
   }, [props.user]);
-  console.log(alerts)
   return (
     <Grid item
       sx={{
