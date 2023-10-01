@@ -9,9 +9,7 @@ Wet Bulb Globe Temperature Calculator
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
 - [Usage](#usage)
-- [Features](#features)
 - [Built With](#built-with)
-- [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
 
@@ -21,24 +19,17 @@ The Wet Bulb Globe Temperature Calculator (WBGT) uses real time weather informat
 
 ## Usage
 
-Provide clear instructions on how to use your project, including any command line instructions or GUI features.
-
-## Features
-
-List and describe the main features and functionalities of your project.
+Enter your location in the quick search box to get the WBGT for your location. Calculator is currently limited to the Northwestern Hemisphere. Login using Auth0 and you can setup WBGT alerts for a location.
 
 ## Built With
 
-- List the main technologies, frameworks, and libraries used in your project.
+### Front-end
 
-## Contributing
+-React, front-end JavaScript library
+-MUI, React component library
 
-Provide guidelines on how others can contribute to your project, including any specific coding conventions or submission guidelines.
-
-## License
-
-"This project is licensed under the [MIT License](link-to-license)."
 
 ## Contact
 
-Provide your contact information or links to relevant social media profiles for inquiries or further information about the project.
+Email: anthonymorton760@gmail.com
+LinkedIn: linkedin.com/in/anthony-louis-morton/
