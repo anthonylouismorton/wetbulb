@@ -1,6 +1,4 @@
-# Project Name
-
-Wet Bulb Globe Temperature Calculator
+# Wet Bulb Globe Temperature Calculator
 
 ## Table of Contents
 
@@ -24,9 +22,15 @@ Enter your location in the quick search box to get the WBGT for your location. C
 ## Built With
 
 ### Front-end
+-React
+-MUI
+-Auth0
 
--React, front-end JavaScript library
--MUI, React component library
+### Back-end
+-Node.js
+-Express
+-Postgres
+-SQLite
 
 
 ## Contact
