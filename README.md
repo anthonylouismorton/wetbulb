@@ -6,6 +6,7 @@
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
+- [Website Access](#website-access)
 - [Usage](#usage)
 - [Built With](#built-with)
 - [License](#license)
@@ -28,6 +29,12 @@ Before you can utilize the WBGT Calculator, make sure you have the following pre
 ### Installation
 
 The WBGT Calculator doesn't require any installation, as it operates as a web-based tool. Simply navigate to the website to start using it.
+
+## Website Access
+
+You can access the Wet Bulb Globe Temperature Calculator by clicking the link below:
+
+[WBGT Calculator]([https://www.your-website-url.com](https://wetbulbcalculator.netlify.app))
 
 ## Usage
 
