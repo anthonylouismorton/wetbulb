@@ -13,27 +13,53 @@
 
 ## About
 
-The Wet Bulb Globe Temperature Calculator (WBGT) uses real time weather information to allow users to get the WBGT for any location. This is a useful tool to help protect workers from heat stress related illnesses and to comply with OSHA regulations. This tool can also create
+The **Wet Bulb Globe Temperature Calculator (WBGT)** is a powerful tool designed to harness real-time weather data to provide users with accurate WBGT information for any desired location. This innovative application serves as an indispensable resource for safeguarding workers against heat-related illnesses and ensuring compliance with stringent OSHA (Occupational Safety and Health Administration) regulations.
+
+With the ability to generate real-time WBGT data, this tool goes beyond the basic temperature readings by incorporating factors like humidity, solar radiation, and wind speed, thereby delivering a comprehensive assessment of environmental heat stress. Whether you're an employer, safety officer, or individual concerned about outdoor conditions, the WBGT Calculator equips you with essential information to make informed decisions and prioritize safety.
+
+## Getting Started
+
+### Prerequisites
+
+Before you can utilize the WBGT Calculator, make sure you have the following prerequisites in place:
+
+- **Web Browser:** The application is accessible via a web browser on various platforms.
+
+### Installation
+
+The WBGT Calculator doesn't require any installation, as it operates as a web-based tool. Simply navigate to the website to start using it.
 
 ## Usage
 
-Enter your location in the quick search box to get the WBGT for your location. Calculator is currently limited to the Northwestern Hemisphere. Login using Auth0 and you can setup WBGT alerts for a location.
+Using the WBGT Calculator is straightforward and user-friendly. Follow these steps to get WBGT information for your location:
+
+1. Access the application through your web browser.
+2. Enter your location in the quick search box.
+3. Click the "Calculate" button.
+4. The tool will provide you with the current WBGT value for your specified location.
+
+Please note that the WBGT Calculator is currently limited to the Northwestern Hemisphere. For access to additional features, such as setting up WBGT alerts for specific locations, you can log in using Auth0 authentication. Visit the 'About' page for more information about how the calculator works and additional details about WBGT.
 
 ## Built With
 
+The WBGT Calculator is built with a modern tech stack to ensure efficiency, accuracy, and a seamless user experience:
+
 ### Front-end
--React
--MUI
--Auth0
+- **React:** A powerful JavaScript library for building dynamic user interfaces.
+- **MUI (Material-UI):** A popular UI framework that provides a consistent and visually appealing design.
+- **Auth0:** An authentication and authorization platform for secure user access.
 
 ### Back-end
--Node.js
--Express
--Postgres
--SQLite
-
+- **Node.js:** A runtime environment for executing server-side JavaScript.
+- **Express:** A web application framework for Node.js, facilitating the creation of robust APIs.
+- **Postgres:** A powerful, open-source relational database management system.
+- **SQLite:** A lightweight, serverless database engine.
 
 ## Contact
 
-Email: anthonymorton760@gmail.com
-LinkedIn: linkedin.com/in/anthony-louis-morton/
+If you have any questions, suggestions, or need further assistance, please don't hesitate to reach out:
+
+- **Email:** anthonymorton760@gmail.com
+- **LinkedIn:** [linkedin.com/in/anthony-louis-morton/](https://www.linkedin.com/in/anthony-louis-morton/)
+
+Feel free to connect with me; I value your feedback!
