@@ -34,7 +34,7 @@ The WBGT Calculator doesn't require any installation, as it operates as a web-ba
 
 You can access the Wet Bulb Globe Temperature Calculator by clicking the link below:
 
-[WBGT Calculator]((https://wetbulbcalculator.netlify.app)
+[WBGT Calculator](https://wetbulbcalculator.netlify.app)
 
 ## Usage
 
